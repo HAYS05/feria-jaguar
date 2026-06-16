@@ -14,21 +14,22 @@ https://hays05.github.io/feria-jaguar/
 
 ---
 
-## Paso 1 — Restringir la API key (¡ANTES de subir!)
-La key viaja al navegador, así que la protegemos limitándola a tu dominio.
+## Paso 1 — La API key NO se sube (modo kiosco)
+La cuenta de Google de este proyecto **no permite** restringir la key por
+dominio (política de la organización). Por eso usamos **modo kiosco**:
 
-1. Entra a https://console.cloud.google.com/apis/credentials
-2. Arriba, selecciona el proyecto de la key (**Default Gemini Project**).
-3. En **Claves de API**, abre la clave `feria-jaguar`.
-4. **Restricciones de aplicación** → *Sitios web (HTTP referrers)* → agrega:
-   - `https://hays05.github.io/*`
-   - `http://localhost:8000/*`  (para seguir probando en tu compu)
-5. **Restricciones de API** → *Restringir clave* → marca solo
-   **Generative Language API**.
-6. **Guardar**. Puede tardar unos minutos en aplicarse.
+- En internet, `config.js` va **sin** la key (queda como `PEGA-AQUI-TU-API-KEY`).
+- La página publicada responde con el **cerebro local** para todos.
+- En la **computadora de la feria**, el equipo activa Gemini así:
+  1. Abre la página y despliega **"📊 Panel del profesor"** (abajo).
+  2. En **"🤖 Asistente inteligente (Gemini)"**, pega la API key.
+  3. Clic en **"Activar Gemini"**.
+- La key se guarda **solo en ese navegador** (localStorage); nunca se sube
+  ni la ven otros visitantes. Para quitarla: botón **"Quitar"**.
 
-> Con esto, aunque alguien vea la key en el código, **no le sirve** fuera de
-> tu dominio. Es la misma técnica que usa Google Maps en páginas públicas.
+> Resultado: cero riesgo de exponer la key, y en el kiosco de la feria Jago
+> responde con Gemini. Los visitantes en su propio teléfono usan el cerebro
+> local (gratis).
 
 ---
 
@@ -65,10 +66,10 @@ GitHub te pedirá iniciar sesión la primera vez.
 
 ## Paso 5 — Probar
 - Abre tu enlace público en el teléfono o en otra compu.
-- Escribe en el chat: debe responder con Gemini.
-- Si Gemini no responde pero el chat sí (cerebro local), revisa que la
-  restricción de dominio del Paso 1 incluya EXACTAMENTE tu dirección
-  `.github.io` y que ya hayan pasado unos minutos.
+- Escribe en el chat: responde con el **cerebro local** (sin key).
+- En la **computadora de la feria**, activa Gemini desde el
+  **Panel del profesor** (ver Paso 1). Vuelve a preguntar: ahora
+  Jago responde con Gemini en esa computadora.
 
 ---
 

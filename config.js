@@ -1,19 +1,26 @@
 /* ============================================================
-   CONFIGURACION REAL  (este archivo NO se sube a internet)
+   CONFIGURACION DE JAGO
    ------------------------------------------------------------
-   >>> PEGA TU API KEY EN LA LINEA DE ABAJO, entre las comillas <<<
-       La consigues gratis/paga en: https://aistudio.google.com/apikey
+   MODO KIOSCO (recomendado para la pagina publicada):
+     NO escribas la key aqui. Dejala como "PEGA-AQUI-TU-API-KEY".
+     En la computadora de la feria, abre la pagina, despliega el
+     "Panel del profesor" y pega ahi la API key (boton "Activar
+     Gemini"). Se guarda SOLO en ese navegador, nunca se sube.
+
+   USO LOCAL (opcional, solo para probar en tu compu):
+     Puedes pegar tu key abajo y se usara al abrir con INICIAR.bat.
+     Pero si vas a subir el proyecto a internet, dejala vacia.
    ============================================================ */
 
 const CONFIG = {
-  // 1) Tu API Key (reemplaza el texto de ejemplo por tu clave real)
+  // Key para uso LOCAL. Para la web publica, dejala como ejemplo
+  // y usa el modo kiosco (Panel del profesor).
   GEMINI_API_KEY: "PEGA-AQUI-TU-API-KEY",
 
-  // 2) Modelo MAS ECONOMICO (con nivel gratuito): "gemini-2.5-flash".
-  //    Si quieres aun menos costo: "gemini-2.5-flash-lite".
-  //    Si algun dia quieres la maxima calidad: "gemini-2.5-pro".
+  // Modelo: "gemini-2.5-flash" (economico, nivel gratuito).
+  // Mas barato: "gemini-2.5-flash-lite".  Maxima calidad: "gemini-2.5-pro".
   GEMINI_MODELO: "gemini-2.5-flash",
 
-  // 3) Deja true para usar Gemini. Ponlo en false para volver al modo offline.
+  // true = permitir Gemini (kiosco o local).  false = solo cerebro local.
   USAR_GEMINI: true
 };

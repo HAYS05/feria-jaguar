@@ -31,6 +31,8 @@ fetch("datos/conocimiento.json")
     actualizarPanelDatos();
     // Fase 6: dibujamos la galeria de stands de la feria
     if (typeof construirGaleriaStands === "function") construirGaleriaStands();
+    // Modo kiosco: mostramos si Gemini esta activado en esta computadora
+    if (typeof actualizarEstadoGemini === "function") actualizarEstadoGemini();
   })
   .catch(error => {
     console.error("No se pudo cargar el cerebro:", error);

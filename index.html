@@ -107,6 +107,22 @@
         <button class="secundario" onclick="descargarJSON()">Descargar JSON</button>
         <button class="secundario" onclick="borrarDatos()">Borrar datos</button>
       </div>
+
+      <!-- MODO KIOSCO: activar Gemini solo en la computadora de la feria -->
+      <div class="panel-gemini">
+        <p><b>🤖 Asistente inteligente (Gemini)</b> — solo para el equipo</p>
+        <p class="gemini-ayuda">
+          Pega la API key SOLO en la computadora de la feria. Se guarda
+          únicamente en este navegador; nunca se sube a internet.
+          Si no la activas, Jago responde con su cerebro local (gratis).
+        </p>
+        <p>Estado: <b id="estadoGemini">⚪ desactivado (cerebro local)</b></p>
+        <div class="gemini-controles">
+          <input type="password" id="claveGemini" placeholder="Pega aquí la API key">
+          <button onclick="activarGeminiDesdePanel()">Activar Gemini</button>
+          <button class="secundario" onclick="desactivarGemini()">Quitar</button>
+        </div>
+      </div>
     </details>
   </footer>
 

@@ -153,6 +153,39 @@ button.secundario {
 
 .panel-contenido p { margin-right: 10px; }
 
+/* Modo kiosco: activar Gemini (solo equipo) */
+.panel-gemini {
+  background: rgba(0,0,0,0.2);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.gemini-ayuda {
+  font-size: 13px;
+  opacity: 0.85;
+  margin: 6px 0 10px;
+  line-height: 1.35;
+}
+
+.gemini-controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+#claveGemini {
+  flex: 1;
+  min-width: 180px;
+  font-size: 15px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+}
+
 .sin-imagen {
   text-align: center;
   padding: 20px;

@@ -111,7 +111,13 @@ pública tal cual. La guardamos aparte y, al publicar, usamos protección.
 - [x] **Fase 5:** base de datos de visitantes (localStorage + descarga CSV/JSON)
 - [x] **Fase 6:** integración con la web de la feria (galería de stands + resumir stand)
 - [x] **Fase 7:** conectar Gemini (respuestas inteligentes con respaldo offline)
-- [ ] Fase 8: publicar en internet (GitHub Pages, gratis)
+- [x] **Fase 8:** publicado en internet (GitHub Pages) — https://hays05.github.io/feria-jaguar/
+
+> **Novedad Fase 8:** la página está publicada y Gemini funciona en **modo
+> kiosco**. Como la cuenta de Google no permite restringir la key por dominio,
+> la key NO se sube; el equipo la activa en la computadora de la feria desde el
+> **Panel del profesor** (se guarda solo en ese navegador). Los visitantes en
+> su teléfono usan el cerebro local. Detalles en `documentacion/GUIA-PUBLICAR.md`.
 
 > **Novedad Fase 7** (archivos `js/ia-gemini.js` + `config.js`): ahora el chat
 > responde con **Google Gemini**, usando la info de `conocimiento.json` como
