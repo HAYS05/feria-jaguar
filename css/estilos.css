@@ -1,0 +1,428 @@
+/* ===== Estilos de la Feria Jaguar ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at 50% 20%, #2a6fd6 0%, #0b3a8c 100%);
+  color: #fff;
+  min-height: 100vh;
+  padding: 18px;
+}
+
+/* ----- Encabezado ----- */
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+h1 {
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.subtitulo {
+  opacity: 0.9;
+}
+
+/* ----- Tablero de 2 columnas ----- */
+.tablero {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ----- El avatar (jaguar) ----- */
+.avatar-zona {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar-marco {
+  position: relative;            /* para colocar la boca encima */
+  width: 280px;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  border: 3px solid rgba(255,255,255,0.25);
+  overflow: hidden;
+
+  /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) ===== */
+  --boca-x: 50%;     /* izquierda-derecha (mas %% = mas a la derecha) */
+  --boca-y: 20%;     /* arriba-abajo (mas %% = mas abajo) */
+  --boca-ancho: 40px;
+  --boca-alto: 15px;
+}
+
+/* La "cara" agrupa imagen + boca y se mueve como un todo */
+.cara {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+  /* Respiracion + leve balanceo: vive aunque este callado */
+  animation: respirar 6s infinite ease-in-out;
+}
+
+#imagenAvatar {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@keyframes respirar {
+  0%   { transform: translateY(0)    rotate(0deg)    scale(1); }
+  20%  { transform: translateY(-2px) rotate(-0.7deg) scale(1.005); }
+  50%  { transform: translateY(-3px) rotate(0deg)    scale(1.008); }
+  80%  { transform: translateY(-2px) rotate(0.7deg)  scale(1.005); }
+  100% { transform: translateY(0)    rotate(0deg)    scale(1); }
+}
+
+/* Cuando el jaguar habla, se balancea suave para parecer mas vivo */
+.hablando .cara {
+  animation: hablar 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes hablar {
+  from { transform: translateY(0)    rotate(-0.5deg) scale(1); }
+  to   { transform: translateY(-3px) rotate(0.5deg)  scale(1.008); }
+}
+
+/* Botones debajo del avatar */
+.botones-avatar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button.secundario {
+  background: rgba(255,255,255,0.2);
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+/* ----- Panel del profesor ----- */
+.panel-profe {
+  max-width: 1000px;
+  margin: 24px auto 0;
+}
+
+.panel-profe summary {
+  cursor: pointer;
+  font-size: 15px;
+  opacity: 0.9;
+  padding: 8px;
+}
+
+.panel-contenido {
+  background: rgba(0,0,0,0.2);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.panel-contenido p { margin-right: 10px; }
+
+.sin-imagen {
+  text-align: center;
+  padding: 20px;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+/* ----- La boca animada (SVG con dientes, colmillos y lengua) ----- */
+/* El contenedor coloca y centra la boca sobre la cara del jaguar */
+.boca-pos {
+  position: absolute;
+  left: var(--boca-x);
+  top: var(--boca-y);
+  width: var(--boca-ancho);
+  height: var(--boca-alto);
+  transform: translate(-50%, -50%);  /* la centra en el punto exacto */
+  pointer-events: none;
+}
+
+/* El SVG solo se encarga de abrir/cerrar (lo escala JavaScript) */
+.boca {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleY(0.12);   /* cerrada por defecto */
+  transform-origin: center;
+  transform-box: fill-box;   /* el centro es el centro de la boca */
+  opacity: 0;                /* invisible cuando no habla */
+  transition: opacity 0.15s, transform 0.06s ease-out;
+}
+
+/* Colores de las partes de la boca (Equipo 5 puede cambiarlos) */
+.boca .labio   { fill: #1d0505; }              /* borde/labio oscuro */
+.boca .cavidad { fill: url(#gradCavidad); }    /* interior con profundidad */
+.boca .lengua  { fill: #c4566b; }              /* lengua rosada */
+.boca .dientes { fill: #f7f2e7; }              /* dientes/encia */
+.boca .colmillo{ fill: #ffffff; }              /* los dos colmillos */
+
+/* Mientras Jago habla, la boca se vuelve visible (la mueve avatar.js) */
+.boca.activa {
+  opacity: 1;
+}
+
+/* Modo ajuste: muestra la boca SIEMPRE con borde para colocarla bien */
+.ajustar-boca .boca-pos {
+  outline: 2px dashed #ffeb3b;
+}
+.ajustar-boca .boca {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* ----- Zona de chat ----- */
+.chat-zona {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  max-width: 100%;
+}
+
+/* Registro del visitante (pide el nombre) */
+.registro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.registro span { font-weight: bold; }
+
+#campoNombre {
+  flex: 1;
+  min-width: 120px;
+  font-size: 16px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+}
+
+.conversacion {
+  background: rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px;
+  height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Burbujas de mensaje */
+.mensaje {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  line-height: 1.35;
+  word-wrap: break-word;
+}
+
+.mensaje.jago {
+  background: #fff;
+  color: #143a7a;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.mensaje.usuario {
+  background: #e23b3b;
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+/* Caja de texto + boton enviar */
+.entrada {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+#cajaTexto {
+  flex: 1;
+  font-size: 16px;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+}
+
+/* Sugerencias (chips) */
+.sugerencias {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.chip {
+  background: rgba(255,255,255,0.2);
+  font-size: 13px;
+  padding: 7px 13px;
+}
+
+/* ----- Botones ----- */
+button {
+  font-size: 16px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 30px;
+  background: #e23b3b;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.1s, background 0.2s;
+}
+
+button:hover {
+  background: #c52f2f;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Boton de microfono mientras escucha */
+#botonMicro.escuchando {
+  background: #1c9e4b;
+  animation: latido 1s infinite;
+}
+
+@keyframes latido {
+  0%   { box-shadow: 0 0 0 0 rgba(28,158,75,0.7); }
+  70%  { box-shadow: 0 0 0 12px rgba(28,158,75,0); }
+  100% { box-shadow: 0 0 0 0 rgba(28,158,75,0); }
+}
+
+/* ===== FASE 6: galeria de stands de la feria ===== */
+.galeria-zona {
+  max-width: 1000px;
+  margin: 34px auto 0;
+  text-align: center;
+}
+
+.galeria-zona h2 {
+  font-size: 22px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.galeria-ayuda {
+  opacity: 0.9;
+  margin: 6px 0 18px;
+}
+
+/* Rejilla de tarjetas que se acomoda sola en cualquier pantalla */
+.galeria-stands {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tarjeta-stand {
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.12s, background 0.2s;
+}
+
+.tarjeta-stand:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.18);
+}
+
+.tarjeta-stand h3 {
+  font-size: 18px;
+}
+
+.tarjeta-grado {
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(226,59,59,0.85);
+  color: #fff;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 30px;
+}
+
+.tarjeta-stand p {
+  font-size: 14px;
+  line-height: 1.35;
+  opacity: 0.95;
+  flex: 1;
+}
+
+.tarjeta-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.tarjeta-botones button {
+  font-size: 14px;
+  padding: 9px 14px;
+}
+
+.tarjeta-enlace,
+.enlace-stand {
+  color: #fff;
+  font-size: 14px;
+  text-decoration: underline;
+  opacity: 0.95;
+}
+
+.tarjeta-enlace:hover,
+.enlace-stand:hover {
+  opacity: 1;
+}

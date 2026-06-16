@@ -1,0 +1,14 @@
+# NOTA SOBRE LA API KEY (config.js)
+# ---------------------------------
+# Elegimos "key restringida por dominio": la key vive en config.js y SI se
+# sube, pero solo funciona desde la direccion de la feria (GitHub Pages) y
+# localhost. Por eso config.js NO se ignora aqui.
+# IMPORTANTE: agrega la restriccion por dominio en Google Cloud ANTES de
+# publicar (ver documentacion/GUIA-PUBLICAR.md).
+
+# Archivos del sistema
+Thumbs.db
+.DS_Store
+
+# Dependencias (por si algun dia se usan)
+node_modules/

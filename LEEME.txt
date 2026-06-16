@@ -1,0 +1,84 @@
+============================================================
+   FERIA JAGUAR - Asistente virtual (Jago el jaguar)
+   Guia rapida para principiantes
+============================================================
+
+QUE ES ESTO
+-----------
+Una pagina web con la mascota del colegio (Jago) que saluda
+y habla en voz alta. Es la primera version. Iremos agregando
+mas cosas paso a paso (responder preguntas, base de datos,
+mover la boca, integrarlo a la pagina de la feria).
+
+
+PASO 1 - PONER LA IMAGEN DEL JAGUAR
+-----------------------------------
+1. Toma la foto de la mascota (el jaguar).
+2. Guardala dentro de la carpeta "assets".
+3. El nombre debe ser EXACTAMENTE:  mascota.png
+   (si tu imagen es .jpg, igual renombrala a mascota.png
+    o avisame y lo ajusto)
+
+
+PASO 2 - ABRIR LA PAGINA
+------------------------
+Haz DOBLE CLIC en el archivo:  INICIAR.bat
+- Se abre una ventana negra (NO la cierres mientras usas la pagina).
+- Se abre el navegador solo en la pagina del jaguar.
+
+Si no se abre el navegador, escribe esto en Chrome o Edge:
+   http://localhost:8000
+
+
+PASO 3 - PROBAR
+---------------
+- Presiona el boton "Saludar": el jaguar te saluda en voz alta.
+- Presiona "Hacer que hable": prueba de voz.
+
+NOTA: La primera vez el navegador puede pedir permiso o
+necesitar un clic antes de reproducir audio. Es normal.
+
+
+PARA CERRAR
+-----------
+Cierra la ventana negra (la del servidor).
+
+
+CARPETAS (que es cada cosa)
+---------------------------
+index.html ........ la pagina
+css/ .............. los colores y el diseno
+js/ ............... la inteligencia del jaguar
+assets/ ........... aqui va la imagen mascota.png
+datos/ ............ el "cerebro": conocimiento.json
+                    (AQUI escribes la info real de tu feria)
+INICIAR.bat ....... arranca todo con doble clic
+
+
+COMO "ENTRENAR" AL JAGUAR
+-------------------------
+Abre el archivo  datos/conocimiento.json  con el Bloc de notas.
+Cambia los textos que dicen "EJEMPLO" por la informacion
+real de tu feria (stands, horarios, etc).
+Guarda el archivo y recarga la pagina.
+
+
+CONECTAR GEMINI (respuestas mas inteligentes) - FASE 7
+------------------------------------------------------
+1. Entra a  https://aistudio.google.com/apikey  y crea tu API Key.
+2. Abre el archivo  config.js  con el Bloc de notas.
+3. Donde dice "PEGA-AQUI-TU-API-KEY", pega tu clave (deja las comillas).
+4. Guarda y recarga la pagina. Listo: ahora Jago piensa con Gemini.
+
+NOTAS:
+- Si no pones la key (o no hay internet), Jago sigue funcionando con
+  su cerebro local. Nunca se queda mudo.
+- El archivo config.js tiene tu clave: NO lo subas a internet.
+  (Ya esta protegido en .gitignore.)
+- Para GASTAR MENOS, deja GEMINI_MODELO en "gemini-2.5-flash"
+  (tiene nivel gratuito). Aun mas barato: "gemini-2.5-flash-lite".
+- Para que sea GRATIS: al crear la API Key, usa un proyecto SIN
+  facturacion (sin tarjeta). Aplican los limites del nivel gratuito,
+  de sobra para una feria escolar.
+
+============================================================

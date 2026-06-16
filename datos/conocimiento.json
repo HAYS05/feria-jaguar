@@ -1,0 +1,69 @@
+{
+  "_instrucciones": "Este archivo es el CEREBRO del jaguar. Aqui escribes TODO lo que debe saber sobre la feria. Cambia los textos que dicen 'EJEMPLO' por la informacion real. NO borres las comillas ni las comas.",
+
+  "avatar": {
+    "nombre": "Jago",
+    "personalidad": "amistoso, alegre y motivador",
+    "saludos": [
+      "Hola! Soy Jago, la mascota de Saint Margaret School. Bienvenido a nuestra feria tecnologica!",
+      "Que gusto verte! Soy Jago. Quieres que te cuente sobre los proyectos de la feria?"
+    ],
+    "despedidas": [
+      "Gracias por visitarnos! Disfruta la feria.",
+      "Nos vemos pronto! Sigue explorando los stands."
+    ]
+  },
+
+  "feria": {
+    "nombre": "Feria Tecnologica Saint Margaret School",
+    "fecha": "EJEMPLO: 20 de junio de 2026",
+    "horario": "EJEMPLO: de 9:00 am a 2:00 pm",
+    "lugar": "EJEMPLO: Patio central del colegio",
+    "web": "EJEMPLO: https://www.saintmargaret.edu/feria"
+  },
+
+  "stands": [
+    {
+      "id": "robotica",
+      "titulo": "Robotica",
+      "grado": "EJEMPLO: 5to grado",
+      "resumen": "EJEMPLO: En este stand los estudiantes muestran robots que siguen lineas y evitan obstaculos.",
+      "detalle": "EJEMPLO: En el stand de robotica los estudiantes de 5to grado presentan robots construidos con piezas y motores. Algunos siguen una linea negra en el piso, otros detectan obstaculos con sensores y los esquivan solos. Tambien explican como programaron cada movimiento usando bloques de codigo. Es un stand ideal para ver la tecnologia en accion y hacer preguntas a los inventores.",
+      "url": "EJEMPLO: https://www.saintmargaret.edu/feria/robotica",
+      "palabras_clave": ["robot", "robotica", "robots", "arduino"]
+    },
+    {
+      "id": "inteligencia-artificial",
+      "titulo": "Inteligencia Artificial",
+      "grado": "EJEMPLO: 6to grado",
+      "resumen": "EJEMPLO: Aqui presentamos un asistente virtual que reconoce voz y responde preguntas.",
+      "detalle": "EJEMPLO: El stand de Inteligencia Artificial de 6to grado muestra un asistente virtual que escucha por microfono, entiende lo que le preguntan y responde hablando. Los estudiantes explican como funciona el reconocimiento de voz y como se entrena al asistente con preguntas y respuestas. Tambien hablan sobre el uso responsable y la etica de la inteligencia artificial.",
+      "url": "EJEMPLO: https://www.saintmargaret.edu/feria/inteligencia-artificial",
+      "palabras_clave": ["ia", "inteligencia artificial", "asistente", "chatbot"]
+    },
+    {
+      "id": "impresion-3d",
+      "titulo": "Impresion 3D",
+      "grado": "EJEMPLO: 4to grado",
+      "resumen": "EJEMPLO: Mostramos figuras y piezas creadas con nuestra impresora 3D.",
+      "detalle": "EJEMPLO: En el stand de Impresion 3D los estudiantes de 4to grado muestran como una impresora convierte un dibujo en computadora en una figura solida. Exhiben llaveros, piezas y pequenas esculturas que ellos mismos disenaron. Explican que material se usa y cuanto tarda en imprimirse cada objeto.",
+      "url": "EJEMPLO: https://www.saintmargaret.edu/feria/impresion-3d",
+      "palabras_clave": ["3d", "impresion", "impresora", "modelado"]
+    }
+  ],
+
+  "preguntas_frecuentes": [
+    {
+      "pregunta": "EJEMPLO: a que hora abre la feria",
+      "palabras_clave": ["hora", "horario", "abre", "cierra"],
+      "respuesta": "EJEMPLO: La feria abre a las 9 de la maniana y cierra a las 2 de la tarde."
+    },
+    {
+      "pregunta": "EJEMPLO: donde esta el bano",
+      "palabras_clave": ["bano", "banio", "servicios"],
+      "respuesta": "EJEMPLO: Los banos estan al lado de la entrada principal."
+    }
+  ],
+
+  "respuesta_por_defecto": "Mmm, esa no me la se todavia. Pero puedes preguntarme sobre los stands de la feria, el horario o el lugar!"
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feria Tecnologica - Jago el Jaguar</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <header>
+    <img src="assets/logo.png" alt="Logo SMS" class="logo"
+         onerror="this.style.display='none';">
+    <div>
+      <h1>Feria Tecnologica Saint Margaret School</h1>
+      <p class="subtitulo">Preguntale a Jago, nuestro asistente virtual</p>
+    </div>
+  </header>
+
+  <main class="tablero">
+
+    <!-- IZQUIERDA: el jaguar -->
+    <section class="avatar-zona">
+      <div class="avatar-marco" id="marcoAvatar">
+        <!-- La "cara" agrupa imagen + boca, asi se mueven JUNTAS -->
+        <div class="cara" id="cara">
+          <img id="imagenAvatar" src="assets/mascota.jpg" alt="Jago el jaguar"
+               onerror="this.style.display='none'; document.getElementById('avisoImagen').style.display='block';">
+          <!-- Boca animada (Equipo 5): el contenedor la centra, el SVG se abre/cierra -->
+          <div class="boca-pos" id="bocaPos">
+            <svg class="boca" id="boca" viewBox="0 0 40 30" preserveAspectRatio="none">
+              <defs>
+                <radialGradient id="gradCavidad" cx="50%" cy="38%" r="70%">
+                  <stop offset="0%"   stop-color="#7d2020"></stop>
+                  <stop offset="100%" stop-color="#2b0707"></stop>
+                </radialGradient>
+              </defs>
+              <ellipse class="labio"   cx="20" cy="15" rx="20" ry="15"></ellipse>
+              <ellipse class="cavidad" cx="20" cy="15" rx="18" ry="13"></ellipse>
+              <ellipse class="lengua"  cx="20" cy="24" rx="11" ry="7"></ellipse>
+              <path    class="dientes" d="M2,1 L38,1 L38,6 Q20,12 2,6 Z"></path>
+              <polygon class="colmillo" points="10,5 15,5 12.5,13"></polygon>
+              <polygon class="colmillo" points="25,5 30,5 27.5,13"></polygon>
+            </svg>
+          </div>
+        </div>
+        <div class="sin-imagen" id="avisoImagen" style="display:none;">
+          Falta la imagen del jaguar en la carpeta <b>assets</b> (mascota.jpg)
+        </div>
+      </div>
+      <div class="botones-avatar">
+        <button onclick="saludar()">Saludar</button>
+        <button class="secundario" onclick="alternarAjusteBoca()">Ajustar boca</button>
+      </div>
+    </section>
+
+    <!-- DERECHA: el chat -->
+    <section class="chat-zona">
+
+      <!-- Registro del visitante (solo pedimos el nombre) -->
+      <div id="registro" class="registro">
+        <span>👋 Hola, ¿cómo te llamas?</span>
+        <input type="text" id="campoNombre" placeholder="Tu nombre"
+               onkeydown="if(event.key==='Enter') comenzarConNombre()">
+        <button onclick="comenzarConNombre()">Comenzar</button>
+      </div>
+
+      <div id="conversacion" class="conversacion">
+        <!-- Aqui aparecen los mensajes -->
+      </div>
+
+      <div class="entrada">
+        <input type="text" id="cajaTexto" placeholder="Escribe o usa el microfono..."
+               onkeydown="if(event.key==='Enter') enviarPregunta()">
+        <button id="botonMicro" onclick="escuchar()">🎤 Hablar</button>
+        <button onclick="enviarPregunta()">Enviar</button>
+      </div>
+
+      <div class="sugerencias">
+        <span>Prueba preguntar:</span>
+        <button class="chip" onclick="preguntarEjemplo('¿A qué hora es la feria?')">¿A qué hora es?</button>
+        <button class="chip" onclick="preguntarEjemplo('¿Qué stands hay?')">¿Qué stands hay?</button>
+        <button class="chip" onclick="preguntarEjemplo('Háblame del stand de robótica')">Stand de robótica</button>
+        <button class="chip" onclick="preguntarEjemplo('¿Dónde es la feria?')">¿Dónde es?</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FASE 6: galeria de stands de la feria (Jago los resume al tocarlos) -->
+  <section class="galeria-zona">
+    <h2>Stands de la feria</h2>
+    <p class="galeria-ayuda">Toca un stand y Jago te lo cuenta en voz alta.</p>
+    <div id="galeriaStands" class="galeria-stands">
+      <!-- Las tarjetas se crean solas desde js/feria.js -->
+    </div>
+  </section>
+
+  <!-- Panel del profesor: ver y descargar los datos de visitantes -->
+  <footer class="panel-profe">
+    <details>
+      <summary>📊 Panel del profesor</summary>
+      <div class="panel-contenido">
+        <p>Personas registradas: <b id="contadorVisitantes">0</b></p>
+        <button class="secundario" onclick="actualizarPanelDatos()">Actualizar</button>
+        <button class="secundario" onclick="descargarCSV()">Descargar Excel (CSV)</button>
+        <button class="secundario" onclick="descargarJSON()">Descargar JSON</button>
+        <button class="secundario" onclick="borrarDatos()">Borrar datos</button>
+      </div>
+    </details>
+  </footer>
+
+  <!-- config primero (tu API Key), luego las funciones, luego el resto -->
+  <script src="config.js"></script>
+  <script src="js/base-datos.js"></script>
+  <script src="js/cerebro.js"></script>
+  <script src="js/feria.js"></script>
+  <script src="js/ia-gemini.js"></script>
+  <script src="js/avatar.js"></script>
+  <script src="js/voz.js"></script>
+</body>
+</html>
