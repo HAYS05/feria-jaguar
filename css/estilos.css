@@ -106,8 +106,8 @@ h1 {
 }
 
 @keyframes colear {
-  from { transform: rotate(-6deg); }
-  to   { transform: rotate(7deg); }
+  from { transform: translateY(-6%) rotate(-6deg); }
+  to   { transform: translateY(-6%) rotate(7deg); }
 }
 
 @keyframes respirar {
