@@ -101,13 +101,13 @@ h1 {
 
 /* Cola: se balancea sola desde su base (la cadera), de forma natural */
 #colaAvatar {
-  transform-origin: 29% 76%;
+  transform-origin: 11% 64%;
   animation: colear 3.4s ease-in-out infinite alternate;
 }
 
 @keyframes colear {
-  from { transform: translateY(-6%) rotate(-6deg); }
-  to   { transform: translateY(-6%) rotate(7deg); }
+  from { transform: rotate(-7deg); }
+  to   { transform: rotate(8deg); }
 }
 
 @keyframes respirar {
