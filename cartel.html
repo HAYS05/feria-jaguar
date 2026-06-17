@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartel - Escanea a Jago</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #2a6fd6 0%, #0b3a8c 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .cartel {
+      background: rgba(255,255,255,0.10);
+      border: 3px solid rgba(255,255,255,0.25);
+      border-radius: 26px;
+      padding: 36px 30px;
+      text-align: center;
+      max-width: 540px;
+      width: 100%;
+    }
+    .cartel img.mascota { width: 130px; height: 130px; object-fit: contain; }
+    h1 { font-size: 30px; margin-top: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); }
+    .sub { font-size: 18px; opacity: 0.92; margin: 8px 0 22px; }
+    .qr-caja { background: #fff; display: inline-block; padding: 16px; border-radius: 18px; }
+    .qr-caja img { width: 300px; height: 300px; display: block; }
+    .escanea { font-size: 22px; font-weight: bold; margin: 22px 0 6px; }
+    .url { font-size: 16px; opacity: 0.9; word-break: break-all; }
+    .imprimir {
+      margin-top: 22px; font-size: 16px; padding: 12px 22px; border: none;
+      border-radius: 30px; background: #e23b3b; color: #fff; cursor: pointer;
+    }
+    /* Al imprimir: fondo blanco para ahorrar tinta y ocultar el boton */
+    @media print {
+      body { background: #fff; color: #0b3a8c; }
+      .cartel { border-color: #0b3a8c; }
+      .imprimir { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cartel">
+    <img class="mascota" src="assets/mascota.jpg" alt="Jago"
+         onerror="this.style.display='none';">
+    <h1>¡Conoce a Jago! 🐆</h1>
+    <p class="sub">Asistente virtual de la Feria Tecnológica<br>Saint Margaret School</p>
+
+    <div class="qr-caja">
+      <img src="assets/qr-feria.png" alt="Código QR de la feria">
+    </div>
+
+    <p class="escanea">📲 Escanea con tu teléfono</p>
+    <p class="url">hays05.github.io/feria-jaguar</p>
+
+    <button class="imprimir" onclick="window.print()">🖨️ Imprimir cartel</button>
+  </div>
+</body>
+</html>
