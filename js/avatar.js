@@ -174,59 +174,73 @@ const GRADO_LINDO = {
 function gradoLindo(g) { return GRADO_LINDO[g] || g; }
 function limpiarEjemplo(t) { return (t || "").replace(/^EJEMPLO:\s*/i, "").trim(); }
 
-/* Paso 1 -> 2: guardamos nombre y apellido */
+/* Pone botones de respuesta rapida que Jago ofrece durante la charla */
+function mostrarRespuestasRapidas(opciones) {
+  const cont = document.getElementById("respuestasRapidas");
+  if (!cont) return;
+  cont.innerHTML = "";
+  for (const op of opciones) {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.textContent = op.texto;
+    b.onclick = op.fn;
+    cont.appendChild(b);
+  }
+}
+function limpiarRespuestasRapidas() {
+  const cont = document.getElementById("respuestasRapidas");
+  if (cont) cont.innerHTML = "";
+}
+
+/* Paso 1: el visitante da su nombre y Jago TOMA la conversacion */
 function pasoNombreSiguiente() {
   const n = document.getElementById("campoNombre").value.trim();
   const a = document.getElementById("campoApellido").value.trim();
   if (n === "") { document.getElementById("campoNombre").focus(); return; }
   regNombre = n;
   regApellido = a;
-  document.getElementById("pasoNombre").style.display = "none";
-  document.getElementById("textoHijo").textContent =
-    "¡Mucho gusto, " + n + "! ¿Tienes un hijo o hija en Saint Margaret?";
-  document.getElementById("pasoHijo").style.display = "";
-}
-
-/* Paso 2 -> 3 (o fin): ¿tiene hijo en el colegio? */
-function responderHijo(tieneHijo) {
-  document.getElementById("pasoHijo").style.display = "none";
-  if (tieneHijo) {
-    construirBotonesGrado();
-    document.getElementById("pasoGrado").style.display = "";
-  } else {
-    finalizarRegistro(false, null);
-  }
-}
-
-/* Crea los botones de grado a partir del cerebro */
-function construirBotonesGrado() {
-  const cont = document.getElementById("botonesGrado");
-  cont.innerHTML = "";
-  const grados = (cerebro && cerebro.grados_disponibles) || [];
-  for (const g of grados) {
-    const b = document.createElement("button");
-    b.className = "chip";
-    b.textContent = gradoLindo(g);
-    b.onclick = () => finalizarRegistro(true, g);
-    cont.appendChild(b);
-  }
-}
-
-/* Cierra el saludo: guarda en la base de datos y presenta a Jago */
-function finalizarRegistro(hijoEnSMS, grado) {
-  iniciarVisitante(regNombre, regApellido, hijoEnSMS, grado);
+  iniciarVisitante(n, a);                          // lo registra en la base de datos
   document.getElementById("registro").style.display = "none";
+  actualizarPanelDatos();
 
-  let saludo = "¡Bienvenido, " + regNombre + "! ";
-  if (grado) {
-    saludo += "Te cuento de los proyectos de " + gradoLindo(grado) + ".";
+  // Jago pregunta (en el chat, con voz) si tiene hijo en el colegio
+  const msg = "¡Mucho gusto, " + n + "! ¿Tienes un hijo o hija aquí en Saint Margaret?";
+  agregarMensaje(msg, "jago");
+  hablar(msg);
+  mostrarRespuestasRapidas([
+    { texto: "Sí", fn: () => responderHijo(true) },
+    { texto: "No", fn: () => responderHijo(false) }
+  ]);
+}
+
+/* Responde a "¿tienes hijo aqui?" */
+function responderHijo(tieneHijo) {
+  limpiarRespuestasRapidas();
+  agregarMensaje(tieneHijo ? "Sí" : "No", "usuario");
+  actualizarDatosVisitante({ hijoEnSMS: tieneHijo ? "Si" : "No" });
+
+  if (tieneHijo) {
+    const msg = "¡Genial! ¿En qué grado está?";
+    agregarMensaje(msg, "jago");
+    hablar(msg);
+    const grados = (cerebro && cerebro.grados_disponibles) || [];
+    mostrarRespuestasRapidas(
+      grados.map(g => ({ texto: gradoLindo(g), fn: () => elegirGrado(g) }))
+    );
   } else {
-    saludo += "Pregúntame lo que quieras sobre la feria.";
+    const msg = "¡Bienvenido a la feria! Pregúntame lo que quieras: el horario, el lugar o los proyectos.";
+    agregarMensaje(msg, "jago");
+    hablar(msg);
   }
-  agregarMensaje(saludo, "jago");
-  hablar(saludo);
+  actualizarPanelDatos();
+}
 
-  if (grado) mostrarProyectosDeGrado(grado);
+/* Responde al grado elegido y Jago presenta los proyectos */
+function elegirGrado(grado) {
+  limpiarRespuestasRapidas();
+  agregarMensaje(gradoLindo(grado), "usuario");
+  actualizarDatosVisitante({ grado: grado });
+  mostrarProyectosDeGrado(grado);
   actualizarPanelDatos();
 }
 
@@ -247,6 +261,7 @@ function mostrarProyectosDeGrado(grado) {
   for (const p of lista) {
     agregarMensaje("• " + limpiarEjemplo(p.titulo) + ": " + limpiarEjemplo(p.resumen), "jago");
   }
+  agregarMensaje("¿Quieres que te cuente más de alguno, o tienes otra pregunta?", "jago");
 }
 
 /* ---- 8. Modo ajuste de la boca (para el Equipo 5) ----

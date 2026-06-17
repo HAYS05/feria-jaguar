@@ -60,7 +60,7 @@ h1 {
   flex: 1 1 auto;
   min-height: 0;               /* permite que el chat tenga scroll interno */
   display: grid;
-  grid-template-columns: 215px minmax(280px, 320px) minmax(320px, 1fr);
+  grid-template-columns: 185px minmax(360px, 440px) minmax(250px, 320px);
   gap: 16px;
   width: 100%;
   max-width: 1180px;
@@ -101,8 +101,8 @@ h1 {
 
 .avatar-marco {
   position: relative;            /* para colocar la boca encima */
-  width: 280px;
-  height: 360px;
+  width: 350px;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,11 +111,12 @@ h1 {
   border: 3px solid rgba(255,255,255,0.25);
   overflow: hidden;
 
-  /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) ===== */
+  /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) =====
+     (al agrandar el avatar, ancho/alto crecen en la misma proporcion) */
   --boca-x: 50%;     /* izquierda-derecha (mas %% = mas a la derecha) */
   --boca-y: 23%;     /* arriba-abajo (mas %% = mas abajo) */
-  --boca-ancho: 40px;
-  --boca-alto: 37px;
+  --boca-ancho: 50px;
+  --boca-alto: 46px;
 }
 
 /* La "cara" agrupa imagen + boca y se mueve como un todo */
@@ -385,11 +386,23 @@ button.secundario {
   border-bottom-right-radius: 4px;
 }
 
+/* Respuestas rapidas (botones que pone Jago: Sí/No, grados) */
+.respuestas-rapidas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.respuestas-rapidas:empty { display: none; }
+.respuestas-rapidas .chip {
+  background: #fff;
+  color: #143a7a;
+  font-weight: bold;
+}
+
 /* Caja de texto + boton enviar */
 .entrada {
   display: flex;
   gap: 8px;
-  margin-top: 12px;
 }
 
 #cajaTexto {

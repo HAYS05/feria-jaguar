@@ -22,19 +22,31 @@ function guardarVisitantes(lista) {
   localStorage.setItem(CLAVE_BD, JSON.stringify(lista));
 }
 
-/* Registra a una persona nueva (nombre, apellido, si tiene hijo en SMS y grado) */
-function iniciarVisitante(nombre, apellido, hijoEnSMS, grado) {
+/* Registra a una persona nueva con su nombre y apellido.
+   El "hijo en SMS" y el "grado" se completan despues, durante la charla. */
+function iniciarVisitante(nombre, apellido) {
   visitanteActual = {
     nombre: nombre || "",
     apellido: apellido || "",
-    hijoEnSMS: hijoEnSMS ? "Si" : "No",
-    grado: grado || "",
+    hijoEnSMS: "",
+    grado: "",
     inicio: new Date().toLocaleString(),
     interacciones: []
   };
   const lista = obtenerVisitantes();
   lista.push(visitanteActual);
   guardarVisitantes(lista);
+}
+
+/* Actualiza datos del visitante actual (ej: hijoEnSMS, grado) y guarda */
+function actualizarDatosVisitante(campos) {
+  if (!visitanteActual) return;
+  Object.assign(visitanteActual, campos);
+  const lista = obtenerVisitantes();
+  if (lista.length) {
+    lista[lista.length - 1] = visitanteActual;
+    guardarVisitantes(lista);
+  }
 }
 
 /* Guarda cada pregunta y respuesta de la conversacion */

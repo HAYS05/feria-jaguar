@@ -74,9 +74,8 @@
     <!-- DERECHA: el chat -->
     <section class="chat-zona">
 
-      <!-- Registro del visitante: saludo guiado en 3 pasos -->
+      <!-- Registro: solo pedimos nombre y apellido; lo demas lo pregunta Jago -->
       <div id="registro" class="registro">
-        <!-- Paso 1: nombre y apellido -->
         <div id="pasoNombre" class="paso">
           <span>👋 ¡Hola! ¿Cómo te llamas?</span>
           <input type="text" id="campoNombre" placeholder="Nombre"
@@ -85,22 +84,14 @@
                  onkeydown="if(event.key==='Enter') pasoNombreSiguiente()">
           <button onclick="pasoNombreSiguiente()">Continuar</button>
         </div>
-        <!-- Paso 2: ¿hijo en Saint Margaret? -->
-        <div id="pasoHijo" class="paso" style="display:none;">
-          <span id="textoHijo">¿Tienes un hijo o hija en Saint Margaret?</span>
-          <button onclick="responderHijo(true)">Sí</button>
-          <button class="secundario" onclick="responderHijo(false)">No</button>
-        </div>
-        <!-- Paso 3: ¿qué grado? (botones se generan solos) -->
-        <div id="pasoGrado" class="paso" style="display:none;">
-          <span>¿En qué grado está?</span>
-          <div id="botonesGrado" class="botones-grado"></div>
-        </div>
       </div>
 
       <div id="conversacion" class="conversacion">
         <!-- Aqui aparecen los mensajes -->
       </div>
+
+      <!-- Respuestas rapidas: botones que pone Jago durante la charla -->
+      <div id="respuestasRapidas" class="respuestas-rapidas"></div>
 
       <div class="entrada">
         <input type="text" id="cajaTexto" placeholder="Escribe o usa el micrófono..."
