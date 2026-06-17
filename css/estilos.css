@@ -75,7 +75,7 @@ h1 {
   --boca-x: 50%;     /* izquierda-derecha (mas %% = mas a la derecha) */
   --boca-y: 20%;     /* arriba-abajo (mas %% = mas abajo) */
   --boca-ancho: 40px;
-  --boca-alto: 23px;
+  --boca-alto: 31px;
 }
 
 /* La "cara" agrupa imagen + boca y se mueve como un todo */
