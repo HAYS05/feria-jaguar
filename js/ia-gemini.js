@@ -128,16 +128,12 @@ function instruccionesParaGemini() {
   );
 }
 
-/* ---- Llama a Gemini y devuelve el texto de la respuesta ----
-   Es "async": tarda un poco porque pregunta por internet.
-   Devuelve null si algo falla (para usar el cerebro local). */
-async function responderConGemini(pregunta) {
-  if (!geminiDisponible() || !cerebro) return null;
-
-  const clave = obtenerClaveGemini();
-  if (!clave) return null;
-
-  const modelo = CONFIG.GEMINI_MODELO || "gemini-2.5-flash";
+/* ---- Llama a UN modelo de Gemini ----
+   Devuelve { texto, sinSaldo }:
+   - texto: la respuesta (o null si no hubo).
+   - sinSaldo: true si fallo por falta de saldo/cuota (codigo 429 o
+     RESOURCE_EXHAUSTED) -> conviene probar un modelo mas barato (flash). */
+async function pedirAModeloGemini(modelo, clave, pregunta) {
   const url =
     "https://generativelanguage.googleapis.com/v1beta/models/" +
     modelo + ":generateContent?key=" + encodeURIComponent(clave);
@@ -165,17 +161,48 @@ async function responderConGemini(pregunta) {
     });
 
     if (!respuesta.ok) {
-      console.warn("Gemini respondio con error:", respuesta.status, await respuesta.text());
-      return null;
+      const detalle = await respuesta.text();
+      console.warn("Gemini (" + modelo + ") error:", respuesta.status, detalle);
+      // 429 = demasiadas solicitudes / sin cuota; tambien miramos el texto
+      const sinSaldo = respuesta.status === 429 || /RESOURCE_EXHAUSTED|quota|billing/i.test(detalle);
+      return { texto: null, sinSaldo: sinSaldo };
     }
 
     const datos = await respuesta.json();
-    // El texto viene anidado; lo sacamos con cuidado.
     const texto = datos?.candidates?.[0]?.content?.parts?.[0]?.text;
-    return texto ? texto.trim() : null;
+    return { texto: texto ? texto.trim() : null, sinSaldo: false };
 
   } catch (error) {
-    console.warn("No se pudo conectar con Gemini:", error);
-    return null;   // Jago usara su cerebro local
+    console.warn("No se pudo conectar con Gemini (" + modelo + "):", error);
+    return { texto: null, sinSaldo: false };
   }
+}
+
+/* ---- Responde con Gemini, con CAMBIO AUTOMATICO de modelo ----
+   1) Intenta con el modelo configurado (p.ej. gemini-2.5-pro, de pago).
+   2) Si se queda SIN SALDO/CUOTA, cambia solo a "gemini-2.5-flash".
+   3) Si tambien falla, devuelve null y Jago usa su cerebro local. */
+async function responderConGemini(pregunta) {
+  if (!geminiDisponible() || !cerebro) return null;
+
+  const clave = obtenerClaveGemini();
+  if (!clave) return null;
+
+  const principal = CONFIG.GEMINI_MODELO || "gemini-2.5-flash";
+  const RESPALDO = "gemini-2.5-flash";   // modelo economico de respaldo
+
+  // 1) Modelo principal
+  let r = await pedirAModeloGemini(principal, clave, pregunta);
+  if (r.texto) return r.texto;
+
+  // 2) Si fue por falta de saldo/cuota y el principal NO era ya flash,
+  //    reintentamos automaticamente con flash.
+  if (r.sinSaldo && principal !== RESPALDO) {
+    console.warn("Sin saldo/cuota en " + principal + " -> cambiando a " + RESPALDO);
+    r = await pedirAModeloGemini(RESPALDO, clave, pregunta);
+    if (r.texto) return r.texto;
+  }
+
+  // 3) Nada funciono -> cerebro local
+  return null;
 }
