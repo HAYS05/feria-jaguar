@@ -17,9 +17,9 @@ const CONFIG = {
   // y usa el modo kiosco (Panel del profesor).
   GEMINI_API_KEY: "PEGA-AQUI-TU-API-KEY",
 
-  // Modelo: "gemini-2.5-flash" (economico, nivel gratuito).
-  // Mas barato: "gemini-2.5-flash-lite".  Maxima calidad: "gemini-2.5-pro".
-  GEMINI_MODELO: "gemini-2.5-flash",
+  // Modelo. Con la KEY DE PAGO conviene la maxima calidad: "gemini-2.5-pro".
+  // Alternativas mas economicas: "gemini-2.5-flash" o "gemini-2.5-flash-lite".
+  GEMINI_MODELO: "gemini-2.5-pro",
 
   // true = permitir Gemini (kiosco o local).  false = solo cerebro local.
   USAR_GEMINI: true

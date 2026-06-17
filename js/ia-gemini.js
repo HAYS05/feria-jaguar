@@ -142,16 +142,19 @@ async function responderConGemini(pregunta) {
     "https://generativelanguage.googleapis.com/v1beta/models/" +
     modelo + ":generateContent?key=" + encodeURIComponent(clave);
 
+  // Ajustamos el "pensamiento" segun el modelo:
+  // - flash / flash-lite: pensamiento APAGADO (rapido y barato).
+  // - pro (calidad/pago): pensamiento ACOTADO, con espacio extra para que
+  //   la respuesta siempre salga (pro no acepta pensamiento en 0).
+  const esPro = /pro/i.test(modelo);
+  const generationConfig = esPro
+    ? { temperature: 0.7, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 256 } }
+    : { temperature: 0.7, maxOutputTokens: 200,  thinkingConfig: { thinkingBudget: 0 } };
+
   const cuerpo = {
     system_instruction: { parts: [{ text: instruccionesParaGemini() }] },
     contents: [{ role: "user", parts: [{ text: pregunta }] }],
-    generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 200,
-      // Apagamos el "pensamiento" del modelo: respuestas mas directas,
-      // mas rapidas y MAS BARATAS (no gasta tokens pensando).
-      thinkingConfig: { thinkingBudget: 0 }
-    }
+    generationConfig: generationConfig
   };
 
   try {
