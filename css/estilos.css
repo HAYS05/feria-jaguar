@@ -73,7 +73,7 @@ h1 {
 
   /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) ===== */
   --boca-x: 50%;     /* izquierda-derecha (mas %% = mas a la derecha) */
-  --boca-y: 20%;     /* arriba-abajo (mas %% = mas abajo) */
+  --boca-y: 24%;     /* arriba-abajo (mas %% = mas abajo) */
   --boca-ancho: 40px;
   --boca-alto: 31px;
 }
