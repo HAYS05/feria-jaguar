@@ -73,9 +73,9 @@ h1 {
 
   /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) ===== */
   --boca-x: 50%;     /* izquierda-derecha (mas %% = mas a la derecha) */
-  --boca-y: 21.5%;   /* arriba-abajo (mas %% = mas abajo) */
-  --boca-ancho: 28px;
-  --boca-alto: 26px;
+  --boca-y: 23%;     /* arriba-abajo (mas %% = mas abajo) */
+  --boca-ancho: 40px;
+  --boca-alto: 37px;
 }
 
 /* La "cara" agrupa imagen + boca y se mueve como un todo */
@@ -101,13 +101,14 @@ h1 {
 
 /* Cola: se balancea sola desde su base (la cadera), de forma natural */
 #colaAvatar {
-  transform-origin: 14.4% 67.2%;   /* nacimiento de la cola (junto al cuerpo) */
-  animation: colear 3.6s ease-in-out infinite alternate;
+  transform-origin: 14% 64%;   /* nacimiento de la cola (donde sale del cuerpo) */
+  animation: colear 4s ease-in-out infinite alternate;
 }
 
+/* Movimiento MUY sutil: da vida sin que el recorte se note ni se "parta" */
 @keyframes colear {
-  from { transform: rotate(-5deg); }
-  to   { transform: rotate(6deg); }
+  from { transform: rotate(-2.5deg); }
+  to   { transform: rotate(2.5deg); }
 }
 
 @keyframes respirar {
