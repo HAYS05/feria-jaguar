@@ -105,10 +105,10 @@ h1 {
   animation: colear 4s ease-in-out infinite alternate;
 }
 
-/* Movimiento MUY sutil: da vida sin que el recorte se note ni se "parta" */
+/* La cola original queda debajo, asi que el balanceo no abre grietas */
 @keyframes colear {
-  from { transform: rotate(-2.5deg); }
-  to   { transform: rotate(2.5deg); }
+  from { transform: rotate(-5deg); }
+  to   { transform: rotate(5deg); }
 }
 
 @keyframes respirar {
