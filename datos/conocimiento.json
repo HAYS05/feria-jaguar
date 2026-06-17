@@ -65,5 +65,34 @@
     }
   ],
 
-  "respuesta_por_defecto": "Mmm, esa no me la se todavia. Pero puedes preguntarme sobre los stands de la feria, el horario o el lugar!"
+  "respuesta_por_defecto": "Mmm, esa no me la se todavia. Pero puedes preguntarme sobre los stands de la feria, el horario o el lugar!",
+
+  "_nota_grados": "PROYECTOS POR GRADO. Cuando un visitante dice el grado de su hijo, Jago muestra estos proyectos. Cambia los EJEMPLO por los proyectos reales (Equipo 1).",
+  "grados_disponibles": ["Sexto", "Septimo", "Octavo", "Noveno", "Decimo", "Undecimo"],
+  "proyectos_por_grado": {
+    "Sexto": [
+      { "titulo": "EJEMPLO: Volcan quimico", "resumen": "EJEMPLO: una reaccion que hace erupcion con vinagre y bicarbonato." },
+      { "titulo": "EJEMPLO: Sistema solar a escala", "resumen": "EJEMPLO: maqueta de los planetas y sus distancias." }
+    ],
+    "Septimo": [
+      { "titulo": "EJEMPLO: Circuitos con luces LED", "resumen": "EJEMPLO: como encender luces con baterias y cables." },
+      { "titulo": "EJEMPLO: Huerto escolar", "resumen": "EJEMPLO: plantas que cultivamos y como cuidarlas." }
+    ],
+    "Octavo": [
+      { "titulo": "EJEMPLO: Robot seguidor de linea", "resumen": "EJEMPLO: un robot que sigue una linea negra en el piso." },
+      { "titulo": "EJEMPLO: App de reciclaje", "resumen": "EJEMPLO: una aplicacion que ensena a separar la basura." }
+    ],
+    "Noveno": [
+      { "titulo": "EJEMPLO: Energia solar", "resumen": "EJEMPLO: un panel solar que carga un telefono." },
+      { "titulo": "EJEMPLO: Brazo hidraulico", "resumen": "EJEMPLO: un brazo que se mueve con jeringas y agua." }
+    ],
+    "Decimo": [
+      { "titulo": "EJEMPLO: Asistente virtual Jago", "resumen": "EJEMPLO: este mismo asistente que reconoce voz y responde preguntas." },
+      { "titulo": "EJEMPLO: Impresion 3D", "resumen": "EJEMPLO: figuras y piezas creadas con impresora 3D." }
+    ],
+    "Undecimo": [
+      { "titulo": "EJEMPLO: Estacion meteorologica", "resumen": "EJEMPLO: sensores que miden temperatura y humedad en vivo." },
+      { "titulo": "EJEMPLO: Domotica (casa inteligente)", "resumen": "EJEMPLO: control de luces y puertas desde el celular." }
+    ]
+  }
 }

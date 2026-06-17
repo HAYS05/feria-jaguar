@@ -106,6 +106,14 @@ function instruccionesParaGemini() {
     info += "- " + s.titulo + " (" + s.grado + "): " + (s.detalle || s.resumen) + "\n";
   }
 
+  if (cerebro.proyectos_por_grado) {
+    info += "\nPROYECTOS POR GRADO (de Sexto a Undecimo):\n";
+    for (const g in cerebro.proyectos_por_grado) {
+      const titulos = cerebro.proyectos_por_grado[g].map(p => p.titulo).join(", ");
+      info += "- " + g + ": " + titulos + "\n";
+    }
+  }
+
   if (cerebro.preguntas_frecuentes && cerebro.preguntas_frecuentes.length) {
     info += "\nPREGUNTAS FRECUENTES:\n";
     for (const p of cerebro.preguntas_frecuentes) {

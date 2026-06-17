@@ -64,12 +64,28 @@
     <!-- DERECHA: el chat -->
     <section class="chat-zona">
 
-      <!-- Registro del visitante (solo pedimos el nombre) -->
+      <!-- Registro del visitante: saludo guiado en 3 pasos -->
       <div id="registro" class="registro">
-        <span>👋 Hola, ¿cómo te llamas?</span>
-        <input type="text" id="campoNombre" placeholder="Tu nombre"
-               onkeydown="if(event.key==='Enter') comenzarConNombre()">
-        <button onclick="comenzarConNombre()">Comenzar</button>
+        <!-- Paso 1: nombre y apellido -->
+        <div id="pasoNombre" class="paso">
+          <span>👋 ¡Hola! ¿Cómo te llamas?</span>
+          <input type="text" id="campoNombre" placeholder="Nombre"
+                 onkeydown="if(event.key==='Enter') document.getElementById('campoApellido').focus()">
+          <input type="text" id="campoApellido" placeholder="Apellido"
+                 onkeydown="if(event.key==='Enter') pasoNombreSiguiente()">
+          <button onclick="pasoNombreSiguiente()">Continuar</button>
+        </div>
+        <!-- Paso 2: ¿hijo en Saint Margaret? -->
+        <div id="pasoHijo" class="paso" style="display:none;">
+          <span id="textoHijo">¿Tienes un hijo o hija en Saint Margaret?</span>
+          <button onclick="responderHijo(true)">Sí</button>
+          <button class="secundario" onclick="responderHijo(false)">No</button>
+        </div>
+        <!-- Paso 3: ¿qué grado? (botones se generan solos) -->
+        <div id="pasoGrado" class="paso" style="display:none;">
+          <span>¿En qué grado está?</span>
+          <div id="botonesGrado" class="botones-grado"></div>
+        </div>
       </div>
 
       <div id="conversacion" class="conversacion">

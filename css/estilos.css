@@ -276,14 +276,31 @@ button.secundario {
 
 .registro span { font-weight: bold; }
 
-#campoNombre {
+#campoNombre, #campoApellido {
   flex: 1;
-  min-width: 120px;
+  min-width: 110px;
   font-size: 16px;
   padding: 10px 14px;
   border: none;
   border-radius: 30px;
   outline: none;
+}
+
+/* Pasos del saludo guiado */
+.registro .paso {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+.registro .paso span { font-weight: bold; width: 100%; }
+
+.botones-grado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
 }
 
 .conversacion {

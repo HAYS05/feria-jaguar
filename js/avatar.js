@@ -161,22 +161,92 @@ function saludar() {
   hablar(saludo);
 }
 
-/* ---- 7. El visitante escribe su nombre y empezamos ---- */
-function comenzarConNombre() {
-  const campo = document.getElementById("campoNombre");
-  const nombre = campo.value.trim();
-  if (nombre === "") {
-    campo.focus();
-    return;
+/* ---- 7. SALUDO GUIADO (nombre -> hijo en SMS -> grado -> proyectos) ---- */
+
+let regNombre = "";      // datos que vamos juntando durante el saludo
+let regApellido = "";
+
+/* Nombres bonitos (con acento) para mostrar en botones/mensajes */
+const GRADO_LINDO = {
+  "Sexto": "Sexto", "Septimo": "Séptimo", "Octavo": "Octavo",
+  "Noveno": "Noveno", "Decimo": "Décimo", "Undecimo": "Undécimo"
+};
+function gradoLindo(g) { return GRADO_LINDO[g] || g; }
+function limpiarEjemplo(t) { return (t || "").replace(/^EJEMPLO:\s*/i, "").trim(); }
+
+/* Paso 1 -> 2: guardamos nombre y apellido */
+function pasoNombreSiguiente() {
+  const n = document.getElementById("campoNombre").value.trim();
+  const a = document.getElementById("campoApellido").value.trim();
+  if (n === "") { document.getElementById("campoNombre").focus(); return; }
+  regNombre = n;
+  regApellido = a;
+  document.getElementById("pasoNombre").style.display = "none";
+  document.getElementById("textoHijo").textContent =
+    "¡Mucho gusto, " + n + "! ¿Tienes un hijo o hija en Saint Margaret?";
+  document.getElementById("pasoHijo").style.display = "";
+}
+
+/* Paso 2 -> 3 (o fin): ¿tiene hijo en el colegio? */
+function responderHijo(tieneHijo) {
+  document.getElementById("pasoHijo").style.display = "none";
+  if (tieneHijo) {
+    construirBotonesGrado();
+    document.getElementById("pasoGrado").style.display = "";
+  } else {
+    finalizarRegistro(false, null);
   }
+}
 
-  iniciarVisitante(nombre);                 // lo guarda en la base de datos
-  document.getElementById("registro").style.display = "none"; // oculta el formulario
+/* Crea los botones de grado a partir del cerebro */
+function construirBotonesGrado() {
+  const cont = document.getElementById("botonesGrado");
+  cont.innerHTML = "";
+  const grados = (cerebro && cerebro.grados_disponibles) || [];
+  for (const g of grados) {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.textContent = gradoLindo(g);
+    b.onclick = () => finalizarRegistro(true, g);
+    cont.appendChild(b);
+  }
+}
 
-  const saludo = "Mucho gusto, " + nombre + "! Preguntame lo que quieras sobre la feria.";
+/* Cierra el saludo: guarda en la base de datos y presenta a Jago */
+function finalizarRegistro(hijoEnSMS, grado) {
+  iniciarVisitante(regNombre, regApellido, hijoEnSMS, grado);
+  document.getElementById("registro").style.display = "none";
+
+  let saludo = "¡Bienvenido, " + regNombre + "! ";
+  if (grado) {
+    saludo += "Te cuento de los proyectos de " + gradoLindo(grado) + ".";
+  } else {
+    saludo += "Pregúntame lo que quieras sobre la feria.";
+  }
   agregarMensaje(saludo, "jago");
   hablar(saludo);
+
+  if (grado) mostrarProyectosDeGrado(grado);
   actualizarPanelDatos();
+}
+
+/* Muestra (y dice) los proyectos del grado elegido */
+function mostrarProyectosDeGrado(grado) {
+  const lista = (cerebro.proyectos_por_grado && cerebro.proyectos_por_grado[grado]) || [];
+  if (!lista.length) {
+    const m = "Por ahora no tengo cargados los proyectos de " + gradoLindo(grado) +
+              ", pero puedes ver todos los stands aquí abajo o preguntarme lo que quieras.";
+    agregarMensaje(m, "jago");
+    hablar(m);
+    return;
+  }
+  const titulos = lista.map(p => limpiarEjemplo(p.titulo));
+  const intro = "En " + gradoLindo(grado) + " puedes ver: " + titulos.join(", ") + ".";
+  agregarMensaje(intro, "jago");
+  hablar(intro);
+  for (const p of lista) {
+    agregarMensaje("• " + limpiarEjemplo(p.titulo) + ": " + limpiarEjemplo(p.resumen), "jago");
+  }
 }
 
 /* ---- 8. Modo ajuste de la boca (para el Equipo 5) ----

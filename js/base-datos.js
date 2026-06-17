@@ -22,10 +22,13 @@ function guardarVisitantes(lista) {
   localStorage.setItem(CLAVE_BD, JSON.stringify(lista));
 }
 
-/* Registra a una persona nueva cuando escribe su nombre */
-function iniciarVisitante(nombre) {
+/* Registra a una persona nueva (nombre, apellido, si tiene hijo en SMS y grado) */
+function iniciarVisitante(nombre, apellido, hijoEnSMS, grado) {
   visitanteActual = {
-    nombre: nombre,
+    nombre: nombre || "",
+    apellido: apellido || "",
+    hijoEnSMS: hijoEnSMS ? "Si" : "No",
+    grado: grado || "",
     inicio: new Date().toLocaleString(),
     interacciones: []
   };
@@ -68,13 +71,14 @@ function descargarJSON() {
 /* Descarga todo en un archivo CSV (se abre en Excel) */
 function descargarCSV() {
   const visitantes = obtenerVisitantes();
-  let csv = "Nombre,Inicio,Hora,Pregunta,Respuesta\n";
+  let csv = "Nombre,Apellido,HijoEnSMS,Grado,Inicio,Hora,Pregunta,Respuesta\n";
   for (const v of visitantes) {
+    const base = `"${v.nombre || ""}","${v.apellido || ""}","${v.hijoEnSMS || ""}","${v.grado || ""}","${v.inicio}"`;
     if (v.interacciones.length === 0) {
-      csv += `"${v.nombre}","${v.inicio}","","",""\n`;
+      csv += `${base},"","",""\n`;
     }
     for (const i of v.interacciones) {
-      csv += `"${v.nombre}","${v.inicio}","${i.hora}","${i.pregunta}","${i.respuesta}"\n`;
+      csv += `${base},"${i.hora}","${i.pregunta}","${i.respuesta}"\n`;
     }
   }
   descargarArchivo(csv, "visitantes-jago.csv", "text/csv");
