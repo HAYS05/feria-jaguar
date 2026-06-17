@@ -24,8 +24,11 @@
       <div class="avatar-marco" id="marcoAvatar">
         <!-- La "cara" agrupa imagen + boca, asi se mueven JUNTAS -->
         <div class="cara" id="cara">
-          <img id="imagenAvatar" src="assets/mascota.jpg" alt="Jago el jaguar"
-               onerror="this.style.display='none'; document.getElementById('avisoImagen').style.display='block';">
+          <img id="imagenAvatar" src="assets/jaguar-cuerpo.jpg" alt="Jago el jaguar"
+               onerror="this.onerror=null; this.src='assets/mascota.jpg';">
+          <!-- Cola: capa separada que se balancea sola (se genera de la foto) -->
+          <img id="colaAvatar" src="assets/jaguar-cola.png" alt="" aria-hidden="true"
+               onerror="this.style.display='none';">
           <!-- Boca animada (Equipo 5): el contenedor la centra, el SVG se abre/cierra -->
           <div class="boca-pos" id="bocaPos">
             <svg class="boca" id="boca" viewBox="0 0 40 86" preserveAspectRatio="none">
