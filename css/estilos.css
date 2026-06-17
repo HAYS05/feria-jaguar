@@ -73,9 +73,9 @@ h1 {
 
   /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) ===== */
   --boca-x: 50%;     /* izquierda-derecha (mas %% = mas a la derecha) */
-  --boca-y: 22.5%;   /* arriba-abajo (mas %% = mas abajo) */
+  --boca-y: 24%;     /* arriba-abajo (mas %% = mas abajo) */
   --boca-ancho: 46px;
-  --boca-alto: 31px;
+  --boca-alto: 43px;
 }
 
 /* La "cara" agrupa imagen + boca y se mueve como un todo */
