@@ -50,11 +50,22 @@ function enlaceValido(url) {
   return !!url && /^https?:\/\//i.test(url) && !/EJEMPLO/i.test(url);
 }
 
+/* ---- Abrir/cerrar la ventana (modal) de stands ---- */
+function abrirStands() {
+  const m = document.getElementById("modalStands");
+  if (m) m.style.display = "flex";
+}
+function cerrarStands() {
+  const m = document.getElementById("modalStands");
+  if (m) m.style.display = "none";
+}
+
 /* ---- 6. Cuando el visitante toca una tarjeta de stand ----
    Jago lo trata como si el visitante hubiera preguntado por el. */
 function preguntarPorStand(id) {
   const stand = buscarStandPorId(id);
   if (!stand) return;
+  cerrarStands();   // cierra la ventana para ver a Jago responder
 
   const pregunta = "Cuentame sobre el stand de " + stand.titulo;
   agregarMensaje(pregunta, "usuario");

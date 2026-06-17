@@ -9,17 +9,31 @@
 <body>
 
   <header>
-    <img src="assets/logo.png" alt="Logo SMS" class="logo"
-         onerror="this.style.display='none';">
-    <div>
-      <h1>Feria Tecnologica Saint Margaret School</h1>
-      <p class="subtitulo">Preguntale a Jago, nuestro asistente virtual</p>
+    <div class="logo-caja">
+      <img src="assets/logo.png" alt="Logo SMS" class="logo"
+           onerror="this.parentNode.style.display='none';">
+    </div>
+    <div class="titulo-zona">
+      <h1>Feria Tecnológica Saint Margaret School</h1>
+      <p class="subtitulo">Pregúntale a Jago, nuestro asistente virtual</p>
     </div>
   </header>
 
   <main class="tablero">
 
-    <!-- IZQUIERDA: el jaguar -->
+    <!-- IZQUIERDA: acciones -->
+    <aside class="panel-acciones">
+      <button class="accion" onclick="saludar()">👋 Saludar</button>
+      <button class="accion stand" onclick="abrirStands()">🏛️ Ver stands</button>
+      <div class="sugerencias">
+        <span>Prueba preguntar:</span>
+        <button class="chip" onclick="preguntarEjemplo('¿A qué hora es la feria?')">¿A qué hora es?</button>
+        <button class="chip" onclick="preguntarEjemplo('¿Qué stands hay?')">¿Qué stands hay?</button>
+        <button class="chip" onclick="preguntarEjemplo('¿Dónde es la feria?')">¿Dónde es?</button>
+      </div>
+    </aside>
+
+    <!-- CENTRO: el jaguar -->
     <section class="avatar-zona">
       <div class="avatar-marco" id="marcoAvatar">
         <!-- La "cara" agrupa imagen + boca, asi se mueven JUNTAS -->
@@ -55,10 +69,6 @@
           Falta la imagen del jaguar en la carpeta <b>assets</b> (mascota.jpg)
         </div>
       </div>
-      <div class="botones-avatar">
-        <button onclick="saludar()">Saludar</button>
-        <button class="secundario" onclick="alternarAjusteBoca()">Ajustar boca</button>
-      </div>
     </section>
 
     <!-- DERECHA: el chat -->
@@ -93,31 +103,29 @@
       </div>
 
       <div class="entrada">
-        <input type="text" id="cajaTexto" placeholder="Escribe o usa el microfono..."
+        <input type="text" id="cajaTexto" placeholder="Escribe o usa el micrófono..."
                onkeydown="if(event.key==='Enter') enviarPregunta()">
-        <button id="botonMicro" onclick="escuchar()">🎤 Hablar</button>
+        <button id="botonMicro" onclick="escuchar()" title="Hablar por micrófono">🎤</button>
         <button onclick="enviarPregunta()">Enviar</button>
-      </div>
-
-      <div class="sugerencias">
-        <span>Prueba preguntar:</span>
-        <button class="chip" onclick="preguntarEjemplo('¿A qué hora es la feria?')">¿A qué hora es?</button>
-        <button class="chip" onclick="preguntarEjemplo('¿Qué stands hay?')">¿Qué stands hay?</button>
-        <button class="chip" onclick="preguntarEjemplo('Háblame del stand de robótica')">Stand de robótica</button>
-        <button class="chip" onclick="preguntarEjemplo('¿Dónde es la feria?')">¿Dónde es?</button>
       </div>
     </section>
 
   </main>
 
-  <!-- FASE 6: galeria de stands de la feria (Jago los resume al tocarlos) -->
-  <section class="galeria-zona">
-    <h2>Stands de la feria</h2>
-    <p class="galeria-ayuda">Toca un stand y Jago te lo cuenta en voz alta.</p>
-    <div id="galeriaStands" class="galeria-stands">
-      <!-- Las tarjetas se crean solas desde js/feria.js -->
+  <!-- Galeria de stands: ventana que se abre con el boton "Ver stands" -->
+  <div id="modalStands" class="modal" style="display:none;"
+       onclick="if(event.target===this) cerrarStands()">
+    <div class="modal-caja">
+      <div class="modal-top">
+        <h2>🏛️ Stands de la feria</h2>
+        <button class="cerrar" onclick="cerrarStands()" title="Cerrar">✕</button>
+      </div>
+      <p class="galeria-ayuda">Toca un stand y Jago te lo cuenta en voz alta.</p>
+      <div id="galeriaStands" class="galeria-stands">
+        <!-- Las tarjetas se crean solas desde js/feria.js -->
+      </div>
     </div>
-  </section>
+  </div>
 
   <!-- Panel del profesor: ver y descargar los datos de visitantes -->
   <footer class="panel-profe">
@@ -129,6 +137,7 @@
         <button class="secundario" onclick="descargarCSV()">Descargar Excel (CSV)</button>
         <button class="secundario" onclick="descargarJSON()">Descargar JSON</button>
         <button class="secundario" onclick="borrarDatos()">Borrar datos</button>
+        <button class="secundario" onclick="alternarAjusteBoca()">Ajustar boca</button>
       </div>
 
       <!-- MODO KIOSCO: activar Gemini solo en la computadora de la feria -->
