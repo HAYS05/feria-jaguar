@@ -29,17 +29,22 @@ header {
   margin-bottom: 12px;
 }
 
-/* Logo SMS con fondo blanco */
+/* Logo SMS: circulo blanco exacto, el logo cabe dentro sin salirse */
 .logo-caja {
   background: #fff;
-  border-radius: 14px;
-  padding: 7px;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
   display: flex;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  flex: none;
+  overflow: hidden;
 }
 .logo {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   display: block;
 }
@@ -89,6 +94,54 @@ h1 {
   background: #1c9e4b;          /* verde para destacar el boton de stands */
 }
 .accion.stand:hover { background: #178040; }
+
+/* Menu de proyectos por grado */
+.menu-grados { margin-top: 2px; }
+.menu-titulo {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.85;
+  margin-bottom: 8px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.grados-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+.grado-chip {
+  width: 100%;
+  font-size: 13px;
+  padding: 9px 6px;
+  text-align: center;
+  background: rgba(255,255,255,0.16);
+}
+.grado-chip:hover { background: rgba(255,255,255,0.30); }
+
+/* Codigo QR a la vista (al fondo del panel) */
+.qr-zona {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 10px;
+}
+.qr-img {
+  width: 96px;
+  height: 96px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+.qr-zona span { font-size: 12px; opacity: 0.9; text-align: center; }
+
+/* Pulido: sombra y profundidad en las tarjetas */
+.panel-acciones, .chat-zona { box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+.avatar-marco { box-shadow: 0 10px 30px rgba(0,0,0,0.28); }
 
 /* ----- Columna CENTRO: el avatar (jaguar) ----- */
 .avatar-zona {

@@ -21,15 +21,22 @@
 
   <main class="tablero">
 
-    <!-- IZQUIERDA: acciones -->
+    <!-- IZQUIERDA: menú de acciones -->
     <aside class="panel-acciones">
       <button class="accion" onclick="saludar()">👋 Saludar</button>
-      <button class="accion stand" onclick="abrirStands()">🏛️ Ver stands</button>
-      <div class="sugerencias">
-        <span>Prueba preguntar:</span>
-        <button class="chip" onclick="preguntarEjemplo('¿A qué hora es la feria?')">¿A qué hora es?</button>
-        <button class="chip" onclick="preguntarEjemplo('¿Qué stands hay?')">¿Qué stands hay?</button>
-        <button class="chip" onclick="preguntarEjemplo('¿Dónde es la feria?')">¿Dónde es?</button>
+      <button class="accion stand" onclick="abrirStands()">🏛️ Ver todos los stands</button>
+
+      <div class="menu-grados">
+        <span class="menu-titulo">📚 Proyectos por grado</span>
+        <div id="gradosGrid" class="grados-grid">
+          <!-- Botones por grado: se generan solos -->
+        </div>
+      </div>
+
+      <div class="qr-zona">
+        <img src="assets/qr-feria.png" alt="Código QR de la feria" class="qr-img"
+             onerror="this.parentNode.style.display='none';">
+        <span>📲 Escanéame</span>
       </div>
     </aside>
 

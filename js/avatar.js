@@ -31,6 +31,8 @@ fetch("datos/conocimiento.json")
     actualizarPanelDatos();
     // Fase 6: dibujamos la galeria de stands de la feria
     if (typeof construirGaleriaStands === "function") construirGaleriaStands();
+    // Menu de la izquierda: botones por grado
+    if (typeof construirMenuGrados === "function") construirMenuGrados();
     // Modo kiosco: mostramos si Gemini esta activado en esta computadora
     if (typeof actualizarEstadoGemini === "function") actualizarEstadoGemini();
   })
@@ -233,6 +235,26 @@ function responderHijo(tieneHijo) {
     hablar(msg);
   }
   actualizarPanelDatos();
+}
+
+/* Menu izquierdo: crea un boton por cada grado disponible */
+function construirMenuGrados() {
+  const cont = document.getElementById("gradosGrid");
+  if (!cont || !cerebro) return;
+  cont.innerHTML = "";
+  for (const g of (cerebro.grados_disponibles || [])) {
+    const b = document.createElement("button");
+    b.className = "chip grado-chip";
+    b.textContent = gradoLindo(g);
+    b.onclick = () => verProyectosGrado(g);
+    cont.appendChild(b);
+  }
+}
+
+/* Al tocar un grado del menu, Jago presenta sus proyectos en el chat */
+function verProyectosGrado(grado) {
+  agregarMensaje("¿Qué hay en " + gradoLindo(grado) + "?", "usuario");
+  mostrarProyectosDeGrado(grado);
 }
 
 /* Responde al grado elegido y Jago presenta los proyectos */
