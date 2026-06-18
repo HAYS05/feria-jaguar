@@ -33,34 +33,25 @@ header {
   margin-bottom: 12px;
 }
 
-/* Logo SMS: el logo llena el circulo blanco, sin holgura ni salirse */
-.logo-caja {
+/* Logo SMS: mismo estilo que la quiniela (fondo blanco circular sobre la imagen) */
+.logo {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
   background: #fff;
   border-radius: 50%;
-  width: 62px;
-  height: 62px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-  flex: none;
-  overflow: hidden;
-}
-.logo {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
-  display: block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
 }
 
 .titulo-zona { text-align: left; }
 h1 {
-  font-size: 28px;
-  line-height: 1.12;
+  font-size: 33px;
+  line-height: 1.1;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
 .subtitulo {
-  font-size: 16px;
+  font-size: 17px;
   opacity: 0.9;
 }
 
@@ -69,10 +60,10 @@ h1 {
   flex: 1 1 auto;
   min-height: 0;               /* permite que el chat tenga scroll interno */
   display: grid;
-  grid-template-columns: 240px minmax(360px, 440px) minmax(260px, 340px);
+  grid-template-columns: 280px minmax(340px, 430px) minmax(260px, 340px);
   gap: 18px;
   width: 100%;
-  max-width: 1260px;
+  max-width: 1300px;
   margin: 0 auto;
   align-items: stretch;
 }
@@ -135,14 +126,14 @@ h1 {
   padding-top: 10px;
 }
 .qr-img {
-  width: 96px;
-  height: 96px;
+  width: 130px;
+  height: 130px;
   background: #fff;
   border-radius: 12px;
-  padding: 6px;
+  padding: 8px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.25);
 }
-.qr-zona span { font-size: 12px; opacity: 0.9; text-align: center; }
+.qr-zona span { font-size: 13px; opacity: 0.9; text-align: center; }
 
 /* Pulido: sombra y profundidad en las tarjetas */
 .panel-acciones, .chat-zona { box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
