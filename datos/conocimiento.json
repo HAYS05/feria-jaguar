@@ -5,7 +5,7 @@
     "nombre": "Jago",
     "personalidad": "amistoso, alegre y motivador",
     "saludos": [
-      "Hola! Soy Jago, la mascota de Saint Margaret School. Bienvenido a nuestra feria tecnologica!",
+      "Hola! Soy Jago, la mascota de Saint Margaret School. Bienvenido a nuestro Open House!",
       "Que gusto verte! Soy Jago. Quieres que te cuente sobre los proyectos de la feria?"
     ],
     "despedidas": [
@@ -15,7 +15,7 @@
   },
 
   "feria": {
-    "nombre": "Feria Tecnologica Saint Margaret School",
+    "nombre": "Open House Saint Margaret School",
     "fecha": "EJEMPLO: 20 de junio de 2026",
     "horario": "EJEMPLO: de 9:00 am a 2:00 pm",
     "lugar": "EJEMPLO: Patio central del colegio",

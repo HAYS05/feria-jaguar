@@ -1,6 +1,6 @@
-# 🐆 Jago — Asistente virtual de la Feria Tecnológica
+# 🐆 Jago — Asistente virtual de la Open House
 
-Asistente virtual (un jaguar llamado **Jago**) para la **Feria Tecnológica
+Asistente virtual (un jaguar llamado **Jago**) para la **Open House
 Saint Margaret School**. Habla en voz alta, escucha por micrófono, mueve la
 boca, resume los stands y responde preguntas con **Google Gemini** (con
 respaldo local si no hay internet). Todo con tecnologías **gratuitas** del
