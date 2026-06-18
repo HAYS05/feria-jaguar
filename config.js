@@ -29,6 +29,6 @@ const CONFIG = {
   // Estos SI se pueden subir/publicar: la "anon key" es publica por diseno
   // y la seguridad la dan las reglas (solo permite GUARDAR, no leer).
   // Si las dejas como "PEGA-AQUI...", Jago guarda solo en el navegador.
-  SUPABASE_URL: "PEGA-AQUI-TU-URL-DE-SUPABASE",        // ej: https://abcd1234.supabase.co
-  SUPABASE_ANON_KEY: "PEGA-AQUI-TU-ANON-KEY"           // la clave "anon public"
+  SUPABASE_URL: "https://hjwppjiyglbasvcuxscz.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_jpUFjXL9FOPlu6aiwaw77A_uuO7_w8Y"
 };
