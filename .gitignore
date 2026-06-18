@@ -12,3 +12,6 @@ Thumbs.db
 
 # Dependencias (por si algun dia se usan)
 node_modules/
+
+# Respaldos locales (.zip) - no se suben
+backups/
