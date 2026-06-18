@@ -1,9 +1,11 @@
-# Convierte la guia Markdown en un HTML bonito (luego Chrome lo pasa a PDF)
-import markdown, pathlib
+# Convierte un .md de documentacion/ en un HTML bonito (luego Chrome lo pasa a PDF)
+# Uso: python _build_pdf.py [nombre.md]   (por defecto: GUIA-COMPLETA-PASO-A-PASO.md)
+import markdown, pathlib, sys
 
 base = pathlib.Path(__file__).parent
-md_path = base / "documentacion" / "GUIA-COMPLETA-PASO-A-PASO.md"
-html_out = base / "documentacion" / "_guia.html"
+nombre = sys.argv[1] if len(sys.argv) > 1 else "GUIA-COMPLETA-PASO-A-PASO.md"
+md_path = base / "documentacion" / nombre
+html_out = md_path.with_suffix(".tmp.html")
 
 texto = md_path.read_text(encoding="utf-8")
 cuerpo = markdown.markdown(
@@ -41,7 +43,7 @@ table, pre, blockquote { page-break-inside: avoid; }
 """
 
 doc = f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
-<title>Guia Jago</title><style>{CSS}</style></head><body>{cuerpo}</body></html>"""
+<title>{nombre}</title><style>{CSS}</style></head><body>{cuerpo}</body></html>"""
 
 html_out.write_text(doc, encoding="utf-8")
-print("HTML generado:", html_out)
+print(str(html_out))
