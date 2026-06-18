@@ -18,5 +18,9 @@ const CONFIG = {
 
   // true  = Jago responde con Gemini (necesita internet y API Key)
   // false = Jago usa solo su cerebro local (offline, gratis)
-  USAR_GEMINI: true
+  USAR_GEMINI: true,
+
+  // Base de datos en la nube (Supabase). La anon key es publica por diseno.
+  SUPABASE_URL: "PEGA-AQUI-TU-URL-DE-SUPABASE",
+  SUPABASE_ANON_KEY: "PEGA-AQUI-TU-ANON-KEY"
 };

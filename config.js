@@ -22,5 +22,13 @@ const CONFIG = {
   GEMINI_MODELO: "gemini-2.5-pro",
 
   // true = permitir Gemini (kiosco o local).  false = solo cerebro local.
-  USAR_GEMINI: true
+  USAR_GEMINI: true,
+
+  // ---- BASE DE DATOS EN LA NUBE (Supabase) ----
+  // Pega aqui los datos de TU proyecto Supabase (Settings -> API).
+  // Estos SI se pueden subir/publicar: la "anon key" es publica por diseno
+  // y la seguridad la dan las reglas (solo permite GUARDAR, no leer).
+  // Si las dejas como "PEGA-AQUI...", Jago guarda solo en el navegador.
+  SUPABASE_URL: "PEGA-AQUI-TU-URL-DE-SUPABASE",        // ej: https://abcd1234.supabase.co
+  SUPABASE_ANON_KEY: "PEGA-AQUI-TU-ANON-KEY"           // la clave "anon public"
 };

@@ -144,8 +144,11 @@ async function enviarPregunta() {
   agregarMensaje(respuesta, "jago");      // muestra la respuesta
   hablar(respuesta);                      // y la dice en voz alta
 
-  // Guardamos la conversacion en la base de datos
+  // Guardamos la conversacion: local (siempre) + nube (si esta configurada)
   registrarInteraccion(pregunta, respuesta);
+  if (typeof guardarMensajeNube === "function" && visitanteActual) {
+    guardarMensajeNube(visitanteActual.nombre, visitanteActual.apellido, pregunta, respuesta);
+  }
   actualizarPanelDatos();
 }
 
@@ -233,6 +236,8 @@ function responderHijo(tieneHijo) {
     const msg = "¡Bienvenido a la feria! Pregúntame lo que quieras: el horario, el lugar o los proyectos.";
     agregarMensaje(msg, "jago");
     hablar(msg);
+    // Guardamos al visitante en la nube (no tiene hijo en SMS)
+    if (typeof guardarVisitanteNube === "function") guardarVisitanteNube(visitanteActual);
   }
   actualizarPanelDatos();
 }
@@ -262,6 +267,8 @@ function elegirGrado(grado) {
   limpiarRespuestasRapidas();
   agregarMensaje(gradoLindo(grado), "usuario");
   actualizarDatosVisitante({ grado: grado });
+  // Guardamos al visitante (ya completo: nombre, apellido, hijo y grado) en la nube
+  if (typeof guardarVisitanteNube === "function") guardarVisitanteNube(visitanteActual);
   mostrarProyectosDeGrado(grado);
   actualizarPanelDatos();
 }
