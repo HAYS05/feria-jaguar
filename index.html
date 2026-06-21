@@ -13,7 +13,12 @@
          onerror="this.style.display='none';">
     <div class="titulo-zona">
       <h1>Open House Saint Margaret School</h1>
+      <p class="lema-stand">Stand de Tecnología</p>
       <p class="subtitulo">Pregúntale a Jago, nuestro asistente virtual</p>
+    </div>
+    <div class="credito-creado">
+      <span class="credito-jaguar" aria-hidden="true">🐆</span>
+      <span>Creado por 10° A</span>
     </div>
   </header>
 
@@ -102,7 +107,7 @@
         <input type="text" id="cajaTexto" placeholder="Escribe o usa el micrófono..."
                onkeydown="if(event.key==='Enter') enviarPregunta()">
         <button id="botonMicro" onclick="escuchar()" title="Hablar por micrófono">🎤</button>
-        <button onclick="enviarPregunta()">Enviar</button>
+        <button class="enviar" onclick="enviarPregunta()">Enviar</button>
       </div>
     </section>
 

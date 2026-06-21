@@ -25,6 +25,7 @@ body {
 
 /* ----- Encabezado ----- */
 header {
+  position: relative;       /* para anclar el recuadro "Creado por 10° A" */
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -33,10 +34,37 @@ header {
   margin-bottom: 12px;
 }
 
+/* Recuadro de credito, pegado a la esquina superior derecha de la pantalla */
+.credito-creado {
+  position: fixed;
+  top: 4px;
+  right: 2px;                 /* pegado a la esquina derecha */
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 10px;
+  padding: 6px 13px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+  white-space: nowrap;
+}
+
+/* Jaguar pequeño (emoji), del mismo tamaño que las letras */
+.credito-jaguar {
+  font-size: 1em;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
 /* Logo SMS: mismo estilo que la quiniela (fondo blanco circular sobre la imagen) */
 .logo {
-  width: 72px;
-  height: 72px;
+  width: 100px;
+  height: 100px;
   flex: 0 0 auto;
   background: #fff;
   border-radius: 50%;
@@ -44,11 +72,24 @@ header {
   box-shadow: 0 4px 10px rgba(0,0,0,0.45);
 }
 
-.titulo-zona { text-align: left; }
+.titulo-zona { text-align: center; }   /* el nombre y el lema centrados */
 h1 {
-  font-size: 33px;
-  line-height: 1.1;
+  font-size: 46px;
+  line-height: 1.05;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+.lema-stand {
+  display: inline-block;
+  font-size: 19px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #0b3a8c;
+  background: #ffd34d;
+  padding: 3px 13px;
+  border-radius: 30px;
+  margin-top: 4px;
+  box-shadow: 0 3px 9px rgba(0,0,0,0.3);
 }
 .subtitulo {
   font-size: 17px;
@@ -60,10 +101,11 @@ h1 {
   flex: 1 1 auto;
   min-height: 0;               /* permite que el chat tenga scroll interno */
   display: grid;
-  grid-template-columns: 280px minmax(340px, 430px) minmax(260px, 340px);
+  /* izquierda fija | centro flexible (jaguar, mas grande) | chat mas chico. */
+  grid-template-columns: 240px minmax(340px, 1fr) minmax(280px, 370px);
   gap: 18px;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   align-items: stretch;
 }
@@ -150,8 +192,12 @@ h1 {
 
 .avatar-marco {
   position: relative;            /* para colocar la boca encima */
-  width: 350px;
-  height: 450px;
+  /* Tamaño FLUIDO: se ajusta al alto disponible (clave en pantallas de 13")
+     manteniendo la proporcion 350x450. Asi nunca se corta el jaguar. */
+  height: min(780px, 82vh);
+  aspect-ratio: 9 / 10;          /* marco mas ancho */
+  width: auto;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +209,7 @@ h1 {
   /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) =====
      (al agrandar el avatar, ancho/alto crecen en la misma proporcion) */
   --boca-x: 50.5%;   /* izquierda-derecha (mas %% = mas a la derecha) */
-  --boca-y: 23%;     /* arriba-abajo (mas %% = mas abajo) */
+  --boca-y: 22%;     /* arriba-abajo (mas %% = mas abajo) */
   --boca-ancho: 50px;
   --boca-alto: 46px;
 }
@@ -452,15 +498,32 @@ button.secundario {
 .entrada {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;            /* si no cabe, el boton baja en vez de cortarse */
+  align-items: center;
 }
 
 #cajaTexto {
-  flex: 1;
+  flex: 1 1 120px;
+  min-width: 0;              /* clave: deja que la caja se encoja y todo quepa */
   font-size: 16px;
   padding: 12px 14px;
   border: none;
   border-radius: 30px;
   outline: none;
+}
+
+/* Boton del microfono mas compacto */
+.entrada #botonMicro {
+  font-size: 18px;
+  padding: 9px 14px;
+  flex: 0 0 auto;
+}
+
+/* Boton Enviar mas pequeño */
+.entrada .enviar {
+  font-size: 14px;
+  padding: 9px 14px;
+  flex: 0 0 auto;
 }
 
 /* Sugerencias (chips) en el panel izquierdo */
@@ -634,14 +697,39 @@ button:active {
   opacity: 1;
 }
 
-/* ===== Pantallas chicas (telefonos/tablets): apilar y permitir scroll ===== */
-@media (max-width: 900px), (max-height: 560px) {
+/* ===== Pantallas ANCHAS pero BAJAS (13" con zoom 125%/150%): ===== */
+/* Mantenemos las 3 columnas y compactamos para que TODO quepa sin apilar. */
+@media (min-width: 901px) and (max-height: 760px) {
+  body { padding: 8px 14px; }
+  header { margin-bottom: 8px; }
+  .logo { width: 74px; height: 74px; }
+  h1 { font-size: 34px; }
+  .lema-stand { font-size: 17px; padding: 3px 11px; }
+  .subtitulo { font-size: 13px; }
+  .avatar-marco { height: min(660px, 74vh); }   /* el jaguar se ajusta al alto */
+  .qr-img { width: 96px; height: 96px; }
+  .accion { font-size: 15px; padding: 11px 14px; }
+}
+
+/* ===== SOLO celulares/tablets angostos: apilar en una columna ===== */
+/* (Se apila por ANCHO, nunca por alto: una laptop ancha sigue en 3 columnas.) */
+@media (max-width: 900px) {
   body { height: auto; min-height: 100vh; overflow: auto; }
   .tablero {
     grid-template-columns: 1fr;
     max-width: 480px;
   }
   .avatar-zona { order: -1; }      /* el jaguar arriba en movil */
+  .avatar-marco { height: min(360px, 46vh); }
   .conversacion { height: 300px; flex: none; }
+
+  /* Encabezado apilado para que el recuadro de credito no se encime */
+  header { flex-direction: column; gap: 8px; }
   .titulo-zona { text-align: center; }
+  .credito-creado {
+    position: static;
+    align-self: center;
+    font-size: 13px;
+    padding: 5px 12px;
+  }
 }

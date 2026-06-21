@@ -109,8 +109,10 @@ function instruccionesParaGemini() {
   if (cerebro.proyectos_por_grado) {
     info += "\nPROYECTOS POR GRADO (de Sexto a Undecimo):\n";
     for (const g in cerebro.proyectos_por_grado) {
-      const titulos = cerebro.proyectos_por_grado[g].map(p => p.titulo).join(", ");
-      info += "- " + g + ": " + titulos + "\n";
+      const detalle = cerebro.proyectos_por_grado[g]
+        .map(p => p.titulo + (p.resumen ? " (" + p.resumen + ")" : ""))
+        .join("; ");
+      info += "- " + g + ": " + detalle + "\n";
     }
   }
 
@@ -122,16 +124,40 @@ function instruccionesParaGemini() {
   }
 
   const persona = cerebro.avatar;
+
+  // Nombre del visitante (lo dio en el registro; regNombre vive en avatar.js)
+  const nombreVisitante = (typeof regNombre !== "undefined" && regNombre) ? regNombre : "";
+
+  // Reglas de comportamiento que vinieron en el documento "Saludos Jago"
+  let reglasDoc = "";
+  if (Array.isArray(persona.reglas)) {
+    reglasDoc = "\nREGLAS DEL DOCUMENTO OFICIAL:\n" +
+      persona.reglas.map(r => "- " + r).join("\n") + "\n";
+  }
+
   return (
-    "Eres " + persona.nombre + ", la mascota jaguar de la feria. " +
-    "Tu personalidad es: " + persona.personalidad + ".\n" +
+    "Eres " + persona.nombre + ", " + (persona.rol || "el asistente virtual del Open House de Tecnologia") + ".\n" +
+    "OBJETIVO: " + (persona.objetivo || "guiar a los visitantes y contarles sobre los proyectos") + "\n" +
+    "PERSONALIDAD: " + persona.personalidad + ".\n" +
+    (nombreVisitante
+      ? "EL VISITANTE SE LLAMA \"" + nombreVisitante + "\": dirigete a el por su nombre de forma natural.\n"
+      : "Si aun no sabes el nombre del visitante, puedes pedirselo amablemente.\n") +
     "REGLAS:\n" +
-    "1. Responde SIEMPRE en espanol, con un tono alegre y amable para ninos y familias.\n" +
-    "2. Respuestas CORTAS: 1 a 3 frases. Nada de listas largas.\n" +
-    "3. Usa SOLO la informacion de la feria que aparece abajo. No inventes datos.\n" +
-    "4. Si te preguntan algo que no esta en la informacion, dilo con amabilidad y " +
-    "sugiere preguntar por los stands, el horario o el lugar.\n" +
-    "5. No uses asteriscos ni formato Markdown; texto simple porque se leera en voz alta.\n\n" +
+    "1. Responde SIEMPRE en espanol, con tono amigable, entusiasta y profesional.\n" +
+    "2. Usa el NOMBRE del visitante cuando sea posible.\n" +
+    "3. Respuestas CORTAS: 1 a 3 frases. Evita respuestas demasiado largas y las listas largas.\n" +
+    "4. Usa SOLO la informacion de abajo. NUNCA inventes informacion sobre proyectos.\n" +
+    "5. Si te preguntan algo que no esta en la informacion, admitelo de forma respetuosa y " +
+    "sugiere acercarse a un estudiante expositor o a un docente, o preguntar por los proyectos de un grado.\n" +
+    "6. No uses asteriscos ni formato Markdown; texto simple porque se leera en voz alta.\n" +
+    "7. Promueve el interes por la tecnologia y motiva a recorrer los proyectos. " +
+    "Cuando hables de los PROYECTOS, hazlo con MUCHO entusiasmo en el TONO (exclamaciones y energia), " +
+    "pero SIN agregar datos: di unicamente lo que aparece en la lista de PROYECTOS POR GRADO y en el Stand. " +
+    "No inventes nombres, herramientas ni detalles que no esten escritos aqui.\n" +
+    "8. IMPORTANTE: hay UN SOLO Stand de Tecnologia que reune las tres areas " +
+    "(Coding, Analisis de Datos e Inteligencia Artificial). No son stands separados; " +
+    "cuando hables de ellas, aclara que son areas del mismo stand.\n" +
+    reglasDoc + "\n" +
     info
   );
 }

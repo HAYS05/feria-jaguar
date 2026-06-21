@@ -15,6 +15,13 @@ function normalizar(texto) {
     .trim();
 }
 
+/* Rellena {nombre} con el nombre del visitante (regNombre, definido en
+   avatar.js). Si todavia no lo dio, usa "amigo" para que suene natural. */
+function rellenarNombre(texto) {
+  const nombre = (typeof regNombre !== "undefined" && regNombre) ? regNombre : "amigo";
+  return (texto || "").replace(/\{nombre\}/g, nombre);
+}
+
 /* Cuenta cuantas palabras clave aparecen en el texto del usuario */
 function contarCoincidencias(textoUsuario, palabrasClave) {
   let puntos = 0;
@@ -35,16 +42,22 @@ function responder(textoUsuario) {
 
   const texto = normalizar(textoUsuario);
 
-  // --- 1. Saludos ---
+  // --- 1. Saludos --- (personalizados con el nombre del visitante)
   const palabrasSaludo = ["hola", "buenas", "buenos dias", "buenas tardes", "que tal", "saludos"];
   if (contarCoincidencias(texto, palabrasSaludo) > 0) {
-    return elegirAlAzar(cerebro.avatar.saludos);
+    return rellenarNombre(elegirAlAzar(cerebro.avatar.saludos));
   }
 
-  // --- 2. Despedidas ---
+  // --- 2. Despedidas --- (personalizadas con el nombre del visitante)
   const palabrasDespedida = ["adios", "chao", "hasta luego", "nos vemos", "bye", "gracias"];
   if (contarCoincidencias(texto, palabrasDespedida) > 0) {
-    return elegirAlAzar(cerebro.avatar.despedidas);
+    return rellenarNombre(elegirAlAzar(cerebro.avatar.despedidas));
+  }
+
+  // --- 2.5 Que es el Open House / de que trata ---
+  if (contarCoincidencias(texto, ["que es el open house", "open house", "que es esto", "de que trata", "que es la feria", "que es el evento"]) > 0
+      && cerebro.avatar.presentacion_evento) {
+    return cerebro.avatar.presentacion_evento;
   }
 
   // --- 3. Preguntas frecuentes ---
@@ -95,7 +108,11 @@ function responder(textoUsuario) {
     return mejorFAQ.respuesta;
   }
 
-  // --- Nada coincidio ---
+  // --- Nada coincidio --- (admitirlo de forma respetuosa, con el nombre)
+  const sinInfo = cerebro.avatar && cerebro.avatar.respuestas_sin_info;
+  if (sinInfo && sinInfo.length) {
+    return rellenarNombre(elegirAlAzar(sinInfo));
+  }
   return cerebro.respuesta_por_defecto;
 }
 

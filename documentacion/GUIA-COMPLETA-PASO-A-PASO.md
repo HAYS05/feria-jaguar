@@ -107,6 +107,7 @@ FeriaJaguar/
 ├── README.md                  ← Presentación del repositorio
 ├── .gitignore                 ← Qué NO se sube a GitHub (backups, etc.)
 ├── _tail_tool.py              ← Script de Python que recortó la cola del jaguar
+├── _build_pdf.py              ← Script de Python que genera los PDF de la documentación
 │
 ├── css/
 │   └── estilos.css            ← Diseño, layout, colores y animaciones (boca, cola, respiración)
@@ -125,6 +126,9 @@ FeriaJaguar/
 │   ├── supabase-feria.sql     ← Script para crear las tablas en la nube
 │   └── INFO-QUE-NECESITO.md   ← Plantilla para recolectar la info real del evento
 │
+├── backups/                   ← Copias .zip del proyecto (respaldo; NO se sube a GitHub)
+│   └── feria-jaguar_AAAA-MM-DD_HHMM.zip
+│
 ├── assets/
 │   ├── mascota.jpg            ← Foto del jaguar (cuerpo)
 │   ├── jaguar-cola.png        ← La COLA recortada (capa transparente que se anima)
@@ -135,6 +139,9 @@ FeriaJaguar/
 └── documentacion/
     ├── GUIA-EQUIPOS.md        ← Qué construye cada equipo
     ├── GUIA-PUBLICAR.md       ← Cómo se publicó en GitHub Pages
+    ├── CONCEPTOS-CLAVE.md     ← Conceptos tecnológicos (local, web, celular, base de datos)
+    ├── COMO-CREAR-UN-AGENTE.md ← Cómo crear e integrar un agente de IA
+    ├── *.pdf                  ← Versiones PDF de las guías (generadas con _build_pdf.py)
     └── GUIA-COMPLETA-PASO-A-PASO.md  ← (este documento)
 ```
 
@@ -257,7 +264,7 @@ El evento pasó de "Feria Tecnológica" a **"Open House Saint Margaret School"**
 - 🔑 **API Key de Gemini:** nunca se sube. Se usa en **modo kiosco** (solo en el navegador de la feria), con respaldo local.
 - 🗃️ **Supabase:** la **publishable key** es pública por diseño; la seguridad la dan las reglas **RLS** que **solo permiten INSERTAR** (nadie puede leer ni borrar datos desde la página).
 - 🔒 **Datos de visitantes:** solo se pide **nombre, apellido, si tiene hijo en SMS y el grado**. Nunca datos sensibles (teléfono, dirección, contraseñas).
-- 📦 **Respaldos:** el proyecto está versionado en **Git/GitHub** (historial completo) y hay **copias .zip** en la carpeta `backups/` (que no se sube).
+- 📦 **Respaldos (3 capas):** 1) el proyecto está versionado en **Git/GitHub** (historial completo de cada cambio); 2) hay **copias .zip** del proyecto entero en la carpeta `backups/` (que no se sube); 3) el **localStorage del navegador respalda automáticamente** los visitantes si la nube (Supabase) no está configurada o falla, así nunca se pierden datos.
 
 ---
 
@@ -307,4 +314,4 @@ El evento pasó de "Feria Tecnológica" a **"Open House Saint Margaret School"**
 ### ✅ Resumen en una frase
 > Jago es una **página web gratis** (HTML + CSS + JS) donde un **jaguar habla, escucha, mueve la boca y la cola**, **conversa preguntando el grado del hijo**, responde con **IA (Gemini)**, **guarda a cada visitante en la nube (Supabase)** y está **publicado con GitHub Pages**, compartido por **código QR**.
 
-*Documento vivo: se actualiza al avanzar el proyecto. Última actualización: junio 2026.*
+*Documento vivo: se actualiza al avanzar el proyecto. Última actualización: 21 de junio de 2026.*

@@ -17,6 +17,7 @@ let intervaloBoca = null;       // mueve la boca suavemente
 let intervaloObjetivo = null;   // cambia cada cuanto se abre
 let aperturaActual = 0.12;      // que tan abierta esta AHORA
 let aperturaObjetivo = 0.12;    // hacia donde se mueve
+let usandoBoundary = false;     // ¿el navegador avisa cada palabra? (sincroniza la boca)
 
 /* ---- 1. Cargar el cerebro al abrir la pagina ---- */
 fetch("datos/conocimiento.json")
@@ -24,8 +25,9 @@ fetch("datos/conocimiento.json")
   .then(datos => {
     cerebro = datos;
     console.log("Cerebro cargado:", cerebro);
-    // Mensaje de bienvenida automatico
-    const bienvenida = elegirAlAzar(cerebro.avatar.saludos);
+    // Mensaje inicial: Jago se presenta y PIDE EL NOMBRE (protocolo de inicio).
+    // Los saludos personalizados (con el nombre) llegan despues, en el chat.
+    const bienvenida = cerebro.avatar.mensaje_inicial || elegirAlAzar(cerebro.avatar.saludos);
     agregarMensaje(bienvenida, "jago");
     // Mostramos cuantas personas hay registradas (panel del profesor)
     actualizarPanelDatos();
@@ -56,40 +58,47 @@ function hablar(texto) {
 
   // === Sincronizado con el SONIDO real ===
   // La boca empieza JUSTO cuando comienza el audio...
+  usandoBoundary = false;
   vozTexto.onstart = empezarAHablar;
   // ...y se cierra cuando el audio termina (o si hay error).
   vozTexto.onend = pararDeHablar;
   vozTexto.onerror = pararDeHablar;
 
-  // En cada palabra pronunciada, abrimos mas la boca (ritmo del habla real)
+  // En CADA palabra que el navegador pronuncia, abrimos la boca. Esto la
+  // sincroniza con el audio real: una apertura por palabra dicha.
   vozTexto.onboundary = function () {
-    aperturaObjetivo = 0.85 + Math.random() * 0.15; // bien abierta en la palabra
+    usandoBoundary = true;
+    aperturaObjetivo = 0.8 + Math.random() * 0.2; // bien abierta en la palabra
   };
 
   // Red de seguridad: si "onstart" no llega pero ya esta sonando, arrancamos
   setTimeout(() => {
     if (window.speechSynthesis.speaking && !intervaloBoca) empezarAHablar();
-  }, 300);
+  }, 250);
 
   window.speechSynthesis.speak(vozTexto);
 }
 
-/* Empieza la animacion cuando comienza el sonido */
+/* Empieza la animacion EXACTAMENTE cuando comienza el sonido */
 function empezarAHablar() {
   if (intervaloBoca) return;  // ya esta en marcha, no dupliques
   globoMarco.classList.add("hablando");
   boca.classList.add("activa");
 
-  // Cada ~140ms elegimos un nuevo "objetivo" de apertura (ritmo del habla)
-  intervaloObjetivo = setInterval(() => {
-    aperturaObjetivo = 0.25 + Math.random() * 0.65;
-  }, 140);
-
-  // Cada 40ms movemos la boca SUAVEMENTE hacia ese objetivo (natural, sin saltos)
+  // Cada 40ms: 1) movemos la boca suave hacia el objetivo y 2) el objetivo
+  // decae hacia "casi cerrada", asi cada palabra se abre y entre palabras
+  // (cuando no hay sonido) la boca se cierra. Queda pegado al audio real.
   intervaloBoca = setInterval(() => {
-    aperturaActual += (aperturaObjetivo - aperturaActual) * 0.4;
+    aperturaActual += (aperturaObjetivo - aperturaActual) * 0.45;
     boca.style.transform = "scaleY(" + aperturaActual.toFixed(3) + ")";
+    aperturaObjetivo += (0.12 - aperturaObjetivo) * 0.14;  // se va cerrando sola
   }, 40);
+
+  // Respaldo SOLO para voces que no avisan cada palabra (sin onboundary):
+  // generamos un ritmo para que la boca se mueva mientras dura el audio.
+  intervaloObjetivo = setInterval(() => {
+    if (!usandoBoundary) aperturaObjetivo = 0.3 + Math.random() * 0.6;
+  }, 130);
 }
 
 /* Detiene la animacion y cierra la boca al terminar el sonido */
@@ -158,10 +167,13 @@ function preguntarEjemplo(texto) {
   enviarPregunta();
 }
 
-/* ---- 6. Boton "Saludar" ---- */
+/* ---- 6. Boton "Saludar" ----
+   Si ya sabemos el nombre, saluda personalizado; si no, pide el nombre. */
 function saludar() {
   if (!cerebro) return;
-  const saludo = elegirAlAzar(cerebro.avatar.saludos);
+  const saludo = regNombre
+    ? rellenarNombre(elegirAlAzar(cerebro.avatar.saludos))
+    : (cerebro.avatar.mensaje_inicial || elegirAlAzar(cerebro.avatar.saludos));
   agregarMensaje(saludo, "jago");
   hablar(saludo);
 }
@@ -170,6 +182,9 @@ function saludar() {
 
 let regNombre = "";      // datos que vamos juntando durante el saludo
 let regApellido = "";
+/* En que paso del saludo guiado estamos: "nombre" -> "hijo" -> "grado" -> "libre".
+   Lo usa el microfono (voz.js) para entender la respuesta hablada de cada paso. */
+let pasoActual = "nombre";
 
 /* Nombres bonitos (con acento) para mostrar en botones/mensajes */
 const GRADO_LINDO = {
@@ -208,10 +223,16 @@ function pasoNombreSiguiente() {
   document.getElementById("registro").style.display = "none";
   actualizarPanelDatos();
 
-  // Jago pregunta (en el chat, con voz) si tiene hijo en el colegio
-  const msg = "¡Mucho gusto, " + n + "! ¿Tienes un hijo o hija aquí en Saint Margaret?";
+  // 1) Saludo personalizado al azar (con el nombre), tal como pide el documento.
+  const saludo = rellenarNombre(elegirAlAzar(cerebro.avatar.saludos));
+  agregarMensaje(saludo, "jago");
+
+  // 2) Y SIEMPRE preguntamos si tiene un hijo o hija en el colegio,
+  //    para luego recomendarle los proyectos de su grado.
+  const msg = "¿Tienes un hijo o hija aquí en Saint Margaret?";
   agregarMensaje(msg, "jago");
-  hablar(msg);
+  hablar(saludo + " " + msg);   // una sola locucion (hablar() corta la anterior)
+  pasoActual = "hijo";          // ahora esperamos un Si/No (boton o microfono)
   mostrarRespuestasRapidas([
     { texto: "Sí", fn: () => responderHijo(true) },
     { texto: "No", fn: () => responderHijo(false) }
@@ -228,6 +249,7 @@ function responderHijo(tieneHijo) {
     const msg = "¡Genial! ¿En qué grado está?";
     agregarMensaje(msg, "jago");
     hablar(msg);
+    pasoActual = "grado";       // ahora esperamos el grado (boton o microfono)
     const grados = (cerebro && cerebro.grados_disponibles) || [];
     mostrarRespuestasRapidas(
       grados.map(g => ({ texto: gradoLindo(g), fn: () => elegirGrado(g) }))
@@ -236,6 +258,7 @@ function responderHijo(tieneHijo) {
     const msg = "¡Bienvenido a la feria! Pregúntame lo que quieras: el horario, el lugar o los proyectos.";
     agregarMensaje(msg, "jago");
     hablar(msg);
+    pasoActual = "libre";       // ya puede preguntar libremente
     // Guardamos al visitante en la nube (no tiene hijo en SMS)
     if (typeof guardarVisitanteNube === "function") guardarVisitanteNube(visitanteActual);
   }
@@ -265,6 +288,7 @@ function verProyectosGrado(grado) {
 /* Responde al grado elegido y Jago presenta los proyectos */
 function elegirGrado(grado) {
   limpiarRespuestasRapidas();
+  pasoActual = "libre";        // tras elegir el grado, ya puede preguntar libremente
   agregarMensaje(gradoLindo(grado), "usuario");
   actualizarDatosVisitante({ grado: grado });
   // Guardamos al visitante (ya completo: nombre, apellido, hijo y grado) en la nube
@@ -273,24 +297,53 @@ function elegirGrado(grado) {
   actualizarPanelDatos();
 }
 
-/* Muestra (y dice) los proyectos del grado elegido */
+/* Muestra (y dice) los proyectos del grado elegido, ¡con mucho entusiasmo! */
 function mostrarProyectosDeGrado(grado) {
   const lista = (cerebro.proyectos_por_grado && cerebro.proyectos_por_grado[grado]) || [];
+  const g = gradoLindo(grado);
   if (!lista.length) {
-    const m = "Por ahora no tengo cargados los proyectos de " + gradoLindo(grado) +
-              ", pero puedes ver todos los stands aquí abajo o preguntarme lo que quieras.";
+    const m = "Por ahora no tengo cargados los proyectos de " + g +
+              ", pero puedes ver el Stand de Tecnología o preguntarme lo que quieras.";
     agregarMensaje(m, "jago");
     hablar(m);
     return;
   }
+  const nombre = regNombre ? (", " + regNombre) : "";
   const titulos = lista.map(p => limpiarEjemplo(p.titulo));
-  const intro = "En " + gradoLindo(grado) + " puedes ver: " + titulos.join(", ") + ".";
+
+  // Intro entusiasta (elegida al azar)
+  const intros = [
+    "¡Uy" + nombre + ", " + g + " tiene proyectos increíbles! Mira lo que vas a encontrar: " + titulos.join(", ") + ".",
+    "¡Excelente elección" + nombre + "! En " + g + " te van a encantar: " + titulos.join(", ") + ".",
+    "¡Prepárate" + nombre + ", porque " + g + " viene con todo! Presentan: " + titulos.join(", ") + ".",
+    "¡Qué buena" + nombre + "! Los estudiantes de " + g + " se lucieron. Hicieron: " + titulos.join(", ") + "."
+  ];
+  const intro = elegirAlAzar(intros);
   agregarMensaje(intro, "jago");
-  hablar(intro);
-  for (const p of lista) {
-    agregarMensaje("• " + limpiarEjemplo(p.titulo) + ": " + limpiarEjemplo(p.resumen), "jago");
+
+  // Descripcion LARGA del grado (texto del documento oficial)
+  const descripcion = (cerebro.descripcion_por_grado && cerebro.descripcion_por_grado[grado]) || "";
+  if (descripcion) {
+    agregarMensaje(descripcion, "jago");
   }
-  agregarMensaje("¿Quieres que te cuente más de alguno, o tienes otra pregunta?", "jago");
+
+  // Cada proyecto, con chispa y su explicacion
+  for (const p of lista) {
+    agregarMensaje("✨ " + limpiarEjemplo(p.titulo) + ": " + limpiarEjemplo(p.resumen), "jago");
+  }
+
+  // Cierre motivador (al azar)
+  const cierres = [
+    "¿Cuál te llama más la atención? ¡Con gusto te cuento más!",
+    "¿Quieres que te dé más detalles de alguno? ¡Pregúntame lo que quieras!",
+    "¡Son geniales! ¿Te cuento más de alguno en especial?",
+    "¡La tecnología en acción! ¿De cuál quieres saber más?"
+  ];
+  const cierre = elegirAlAzar(cierres);
+  agregarMensaje(cierre, "jago");
+
+  // Lo dice en voz alta con energia: intro + la descripcion completa + cierre
+  hablar(intro + " " + descripcion + " " + cierre);
 }
 
 /* ---- 8. Modo ajuste de la boca (para el Equipo 5) ----
