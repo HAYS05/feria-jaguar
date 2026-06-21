@@ -168,8 +168,8 @@ h1 {
   padding-top: 10px;
 }
 .qr-img {
-  width: 130px;
-  height: 130px;
+  width: 165px;
+  height: 165px;
   background: #fff;
   border-radius: 12px;
   padding: 8px;
@@ -707,7 +707,7 @@ button:active {
   .lema-stand { font-size: 17px; padding: 3px 11px; }
   .subtitulo { font-size: 13px; }
   .avatar-marco { height: min(660px, 74vh); }   /* el jaguar se ajusta al alto */
-  .qr-img { width: 96px; height: 96px; }
+  .qr-img { width: 124px; height: 124px; }
   .accion { font-size: 15px; padding: 11px 14px; }
 }
 
