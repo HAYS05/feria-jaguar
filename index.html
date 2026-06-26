@@ -65,9 +65,11 @@
               </defs>
               <!-- Labio: ARRIBA arco redondeado (igual que antes);
                    ABAJO una parabola curva (control en y=44) para que parezca boca -->
-              <path class="labio"   d="M0,15 A20,15 0 0 1 40,15 Q20,147 0,15 Z"></path>
+              <!-- Arco superior subido 0.5% (15->15.43 / 13->13.43): solo el labio
+                   de ARRIBA sube; la parabola de abajo (labio inferior) NO cambia -->
+              <path class="labio"   d="M0,15 A20,15.43 0 0 1 40,15 Q20,147 0,15 Z"></path>
               <!-- Cavidad interior: mismo estilo, parabola un poco mas chica -->
-              <path class="cavidad" d="M2,15 A18,13 0 0 1 38,15 Q20,128 2,15 Z"></path>
+              <path class="cavidad" d="M2,15 A18,13.43 0 0 1 38,15 Q20,128 2,15 Z"></path>
               <ellipse class="lengua"  cx="20" cy="24" rx="11" ry="7"></ellipse>
               <path    class="dientes" d="M2,1 L38,1 L38,6 Q20,12 2,6 Z"></path>
               <polygon class="colmillo" points="10,5 15,5 12.5,13"></polygon>

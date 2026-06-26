@@ -368,6 +368,7 @@ button.secundario {
   transform-origin: center;
   transform-box: fill-box;   /* el centro es el centro de la boca */
   opacity: 0;                /* invisible cuando no habla */
+  overflow: visible;         /* no recorta la punta del labio superior subido */
   transition: opacity 0.15s, transform 0.06s ease-out;
 }
 
