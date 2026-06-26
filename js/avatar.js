@@ -214,9 +214,12 @@ function limpiarRespuestasRapidas() {
 
 /* Paso 1: el visitante da su nombre y Jago TOMA la conversacion */
 function pasoNombreSiguiente() {
-  const n = document.getElementById("campoNombre").value.trim();
-  const a = document.getElementById("campoApellido").value.trim();
-  if (n === "") { document.getElementById("campoNombre").focus(); return; }
+  // Un solo campo "Nombre y apellido": la 1ra palabra es el nombre, el resto el apellido.
+  const completo = document.getElementById("campoNombre").value.trim();
+  if (completo === "") { document.getElementById("campoNombre").focus(); return; }
+  const partes = completo.split(/\s+/);
+  const n = partes[0];
+  const a = partes.slice(1).join(" ");
   regNombre = n;
   regApellido = a;
   iniciarVisitante(n, a);                          // lo registra en la base de datos

@@ -121,14 +121,9 @@ function extraerNombre(texto) {
 function ponerNombreDesdeVoz(textoDicho) {
   const limpio = extraerNombre(textoDicho);
   if (!limpio) return;
-  const palabras = limpio.split(/\s+/);
+  // Un solo campo "Nombre y apellido": ponemos todo lo dicho ahi.
   const campoNombre = document.getElementById("campoNombre");
-  const campoApellido = document.getElementById("campoApellido");
-  if (campoNombre) campoNombre.value = palabras[0];
-  // Si dijo dos o mas palabras, el resto va como apellido
-  if (campoApellido && palabras.length > 1) {
-    campoApellido.value = palabras.slice(1).join(" ");
-  }
+  if (campoNombre) campoNombre.value = limpio;
   // Avanza el saludo guiado (saludo personalizado + pregunta por el hijo/grado)
   if (typeof pasoNombreSiguiente === "function") pasoNombreSiguiente();
 }

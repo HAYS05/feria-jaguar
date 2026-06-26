@@ -88,9 +88,7 @@
       <div id="registro" class="registro">
         <div id="pasoNombre" class="paso">
           <span>👋 ¡Hola! ¿Cómo te llamas?</span>
-          <input type="text" id="campoNombre" placeholder="Nombre"
-                 onkeydown="if(event.key==='Enter') document.getElementById('campoApellido').focus()">
-          <input type="text" id="campoApellido" placeholder="Apellido"
+          <input type="text" id="campoNombre" placeholder="Nombre y apellido"
                  onkeydown="if(event.key==='Enter') pasoNombreSiguiente()">
           <button onclick="pasoNombreSiguiente()">Continuar</button>
         </div>
