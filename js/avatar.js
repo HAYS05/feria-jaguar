@@ -86,7 +86,7 @@ function hablar(texto) {
   const vozTexto = new SpeechSynthesisUtterance(texto);
   vozTexto.lang = "es-ES";   // espaniol
   vozTexto.rate = 1.08;      // un poquito mas rapida: suena mas alegre y con energia
-  vozTexto.pitch = 1.05;     // tono mas alegre, manteniendo voz masculina juvenil
+  vozTexto.pitch = 1.18;     // tono mas alto: voz mas juvenil y alegre
 
   // Elegimos una voz de HOMBRE en espaniol si el navegador la tiene
   const vozMasculina = elegirVozMasculina();
