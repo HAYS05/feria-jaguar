@@ -43,6 +43,38 @@ fetch("datos/conocimiento.json")
     agregarMensaje("No pude cargar mi informacion. Abre la pagina con INICIAR.bat (ver LEEME.txt).", "jago");
   });
 
+/* Busca una voz de HOMBRE en espaniol (juvenil-madura). Si no hay voz de
+   hombre, usa cualquier voz en espaniol; si no, la que el navegador tenga. */
+function elegirVozMasculina() {
+  const voces = window.speechSynthesis.getVoices();
+  if (!voces || voces.length === 0) return null;
+
+  // Nombres tipicos de voces masculinas en espaniol (Windows, Google, etc.)
+  const nombresHombre = ["pablo", "raul", "jorge", "diego", "miguel", "carlos",
+                         "alvaro", "enrique", "male", "hombre"];
+
+  // 1) Voz en espaniol cuyo nombre sea de hombre
+  let elegida = voces.find(function (v) {
+    const esEspaniol = v.lang.toLowerCase().startsWith("es");
+    const nombre = v.name.toLowerCase();
+    return esEspaniol && nombresHombre.some(function (n) { return nombre.includes(n); });
+  });
+
+  // 2) Si no hay, cualquier voz en espaniol
+  if (!elegida) {
+    elegida = voces.find(function (v) { return v.lang.toLowerCase().startsWith("es"); });
+  }
+
+  return elegida || null;
+}
+
+// Las voces a veces tardan en cargar; este aviso las refresca cuando llegan
+if ("speechSynthesis" in window) {
+  window.speechSynthesis.onvoiceschanged = function () {
+    elegirVozMasculina(); // fuerza al navegador a cargar la lista de voces
+  };
+}
+
 /* ---- 2. Hacer que el jaguar HABLE en voz alta ---- */
 function hablar(texto) {
   if (!("speechSynthesis" in window)) {
@@ -53,8 +85,12 @@ function hablar(texto) {
 
   const vozTexto = new SpeechSynthesisUtterance(texto);
   vozTexto.lang = "es-ES";   // espaniol
-  vozTexto.rate = 1;         // velocidad
-  vozTexto.pitch = 1.1;      // tono (un poco mas agudo, mas amistoso)
+  vozTexto.rate = 1;         // velocidad normal
+  vozTexto.pitch = 0.9;      // tono: voz masculina juvenil pero madura (ni muy grave ni agudo)
+
+  // Elegimos una voz de HOMBRE en espaniol si el navegador la tiene
+  const vozMasculina = elegirVozMasculina();
+  if (vozMasculina) vozTexto.voice = vozMasculina;
 
   // === Sincronizado con el SONIDO real ===
   // La boca empieza JUSTO cuando comienza el audio...
