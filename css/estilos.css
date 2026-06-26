@@ -209,7 +209,7 @@ h1 {
   /* ===== POSICION DE LA BOCA (Equipo 5: ajusta estos numeros) =====
      (al agrandar el avatar, ancho/alto crecen en la misma proporcion) */
   --boca-x: 50.5%;   /* izquierda-derecha (mas %% = mas a la derecha) */
-  --boca-y: 22%;     /* arriba-abajo (mas %% = mas abajo) */
+  --boca-y: 26%;     /* arriba-abajo (mas %% = mas abajo) */
   --boca-ancho: 50px;
   --boca-alto: 46px;
 }

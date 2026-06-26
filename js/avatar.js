@@ -332,18 +332,9 @@ function mostrarProyectosDeGrado(grado) {
     agregarMensaje("✨ " + limpiarEjemplo(p.titulo) + ": " + limpiarEjemplo(p.resumen), "jago");
   }
 
-  // Cierre motivador (al azar)
-  const cierres = [
-    "¿Cuál te llama más la atención? ¡Con gusto te cuento más!",
-    "¿Quieres que te dé más detalles de alguno? ¡Pregúntame lo que quieras!",
-    "¡Son geniales! ¿Te cuento más de alguno en especial?",
-    "¡La tecnología en acción! ¿De cuál quieres saber más?"
-  ];
-  const cierre = elegirAlAzar(cierres);
-  agregarMensaje(cierre, "jago");
-
-  // Lo dice en voz alta con energia: intro + la descripcion completa + cierre
-  hablar(intro + " " + descripcion + " " + cierre);
+  // Sin pregunta final: termina justo despues de contar lo que hicieron en el grado.
+  // Lo dice en voz alta con energia: intro + la descripcion completa.
+  hablar(intro + " " + descripcion);
 }
 
 /* ---- 8. Modo ajuste de la boca (para el Equipo 5) ----
