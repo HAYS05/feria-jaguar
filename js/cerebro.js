@@ -22,6 +22,16 @@ function rellenarNombre(texto) {
   return (texto || "").replace(/\{nombre\}/g, nombre);
 }
 
+/* Igual que rellenarNombre, pero usa el NOMBRE Y APELLIDO completo.
+   Se usa solo en el saludo (en el resto de la charla se usa solo el nombre,
+   para que no suene repetitivo decir el apellido en cada respuesta). */
+function rellenarNombreCompleto(texto) {
+  const n = (typeof regNombre !== "undefined" && regNombre) ? regNombre : "";
+  const a = (typeof regApellido !== "undefined" && regApellido) ? regApellido : "";
+  const completo = (n + " " + a).trim() || "amigo";
+  return (texto || "").replace(/\{nombre\}/g, completo);
+}
+
 /* Cuenta cuantas palabras clave aparecen en el texto del usuario */
 function contarCoincidencias(textoUsuario, palabrasClave) {
   let puntos = 0;

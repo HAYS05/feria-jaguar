@@ -208,7 +208,7 @@ function preguntarEjemplo(texto) {
 function saludar() {
   if (!cerebro) return;
   const saludo = regNombre
-    ? rellenarNombre(elegirAlAzar(cerebro.avatar.saludos))
+    ? rellenarNombreCompleto(elegirAlAzar(cerebro.avatar.saludos))
     : (cerebro.avatar.mensaje_inicial || elegirAlAzar(cerebro.avatar.saludos));
   agregarMensaje(saludo, "jago");
   hablar(saludo);
@@ -262,8 +262,8 @@ function pasoNombreSiguiente() {
   document.getElementById("registro").style.display = "none";
   actualizarPanelDatos();
 
-  // 1) Saludo personalizado al azar (con el nombre), tal como pide el documento.
-  const saludo = rellenarNombre(elegirAlAzar(cerebro.avatar.saludos));
+  // 1) Saludo personalizado al azar (con el nombre Y apellido completo).
+  const saludo = rellenarNombreCompleto(elegirAlAzar(cerebro.avatar.saludos));
   agregarMensaje(saludo, "jago");
 
   // 2) Y SIEMPRE preguntamos si tiene un hijo o hija en el colegio,
