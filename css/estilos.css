@@ -527,6 +527,15 @@ button.secundario {
   flex: 0 0 auto;
 }
 
+/* Boton para borrar el chat (rojo) */
+.entrada .borrar-chat {
+  font-size: 18px;
+  padding: 9px 14px;
+  flex: 0 0 auto;
+  background: #e23b3b;
+}
+.entrada .borrar-chat:hover { background: #c52f2f; }
+
 /* Sugerencias (chips) en el panel izquierdo */
 .sugerencias {
   margin-top: auto;            /* las empuja al fondo del panel */

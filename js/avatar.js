@@ -278,6 +278,34 @@ function pasoNombreSiguiente() {
   ]);
 }
 
+/* ---- Borrar la conversacion que se ve en pantalla ----
+   Solo limpia el chat visible y deja a Jago listo para el siguiente visitante;
+   NO borra los datos guardados (eso se hace en el Panel del profesor). */
+function limpiarConversacion() {
+  if (!confirm("¿Borrar la conversación de la pantalla?")) return;
+
+  // 1) Vaciar el chat y los botones de respuesta rapida
+  if (conversacion) conversacion.innerHTML = "";
+  const rapidas = document.getElementById("respuestasRapidas");
+  if (rapidas) rapidas.innerHTML = "";
+
+  // 2) Volver a pedir el nombre para el siguiente visitante
+  regNombre = "";
+  regApellido = "";
+  pasoActual = "nombre";
+  const registro = document.getElementById("registro");
+  if (registro) registro.style.display = "";
+  const campoNombre = document.getElementById("campoNombre");
+  if (campoNombre) campoNombre.value = "";
+
+  // 3) Jago vuelve a presentarse (igual que al abrir la pagina)
+  if (cerebro && cerebro.avatar) {
+    const bienvenida = cerebro.avatar.mensaje_inicial || elegirAlAzar(cerebro.avatar.saludos);
+    agregarMensaje(bienvenida, "jago");
+  }
+  if (campoNombre) campoNombre.focus();
+}
+
 /* Responde a "¿tienes hijo aqui?" */
 function responderHijo(tieneHijo) {
   limpiarRespuestasRapidas();
